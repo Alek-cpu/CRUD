@@ -1,11 +1,19 @@
+import React from 'react';
 import styled from 'styled-components';
 import {makeStyles, createMuiTheme} from '@material-ui/core/styles';
-import {NoSsr, TextField, Divider, ListItem, ListItemText, List} from '@material-ui/core';
+import {
+    TextField, ListItem, ListItemText, List, Container, ListItemIcon, ListItemSecondaryAction,
+    Checkbox
+} from '@material-ui/core';
 import {ThemeProvider} from '@material-ui/styles';
 import Button from '@material-ui/core/Button';
+import CreateIcon from '@material-ui/icons/Create';
+import LocalLibraryIcon from '@material-ui/icons/LocalLibrary';
+import UpdateIcon from '@material-ui/icons/Update';
+import DeleteIcon from '@material-ui/icons/Delete';
+import CloseIcon from '@material-ui/icons/Close';
 
 import './App.css';
-import React from "react";
 
 const useStyles = makeStyles({
     button: {
@@ -23,6 +31,18 @@ const useStyles = makeStyles({
         gridGap: '10px',
         width: '100%',
         alignItems: 'center',
+    },
+    line: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+
+    column: {
+        display: 'flex',
+        flexDirection: 'column-reverse',
+        cursor: 'pointer',
+        fontSize: '2rem',
     },
 });
 
@@ -61,50 +81,129 @@ const StyledTextField = styled(TextField)`
   }
 `;
 
+const Blue = styled.div`  
+    &:hover {
+       span {
+        color: blue;
+        transition: 0.6s ease-out;
+        transform: scale(1.2);   
+       }
+    }
+`;
+const Yellow = styled.div`
+    transition: 0.6s ease-out;
+    &:hover {
+       span {
+        color: yellow; 
+        transition: 0.6s ease-out;
+        transform: scale(1.2);    
+       }
+    }
+`;
+const Green = styled.div`
+    transition: 0.6s ease-out;
+    &:hover {
+       span {
+        color: green;  
+        transition: 0.6s ease-out;   
+        transform: scale(1.2);     
+       }
+    }
+`;
+const Red = styled.div`
+    transition: 0.6s ease-out;
+    &:hover {
+       span {
+        color: red;
+        transition: 0.6s ease-out;
+        transform: scale(1.2);              
+       }
+    }
+`;
+
 function App() {
     const classes = useStyles();
+
+    const [checked, setChecked] = React.useState([1]);
+
+    const handleToggle = (value) => () => {
+        const currentIndex = checked.indexOf(value);
+        const newChecked = [...checked];
+
+        if (currentIndex === -1) {
+            newChecked.push(value);
+        } else {
+            newChecked.splice(currentIndex, 1);
+        }
+
+        setChecked(newChecked);
+    };
+
+
     return (
         <div className="App">
             <header className="App-header">
-                <div>
-                    Перед вами приложение по созданию заметок
-                </div>
-                <div>
-                    Иначе говоря CRUD
-                </div>
-                <div>
-                    <ThemeProvider theme={theme}>
-                        <div className={classes.display_line}>
-                            <NoSsr>
+                <Container fixed>
+                    <div className={classes.line}>
+                        <Blue className={classes.column}>
+                            <span className={classes.blue}>C</span>
+                            <span className={classes.blue}><CreateIcon/></span>
+                        </Blue>
+                        <Yellow className={classes.column}>
+                            <span className={classes.yellow}>R</span>
+                            <span className={classes.yellow}><LocalLibraryIcon/></span>
+                        </Yellow>
+                        <Green className={classes.column}>
+                            <span className={classes.green}>U</span>
+                            <span className={classes.green}><UpdateIcon/></span>
+                        </Green>
+                        <Red className={classes.column}>
+                            <span className={classes.red}>D</span>
+                            <span className={classes.red}><DeleteIcon/></span>
+                        </Red>
+                    </div>
+                    <div>
+                        <ThemeProvider theme={theme}>
+                            <div className={classes.display_line}>
                                 <StyledTextField
                                     color="secondary"
                                     label="Заметочка"
                                     variant="outlined"
                                     id="deterministic-outlined-input"
                                 />
-                            </NoSsr>
-                            <Button className={classes.button}>
-                              Hook
-                            </Button>
-                        </div>
-                        <List component="nav" className={classes.root} aria-label="mailbox folders">
-                            <ListItem button>
-                                <ListItemText primary="Inbox" />
-                            </ListItem>
-                            <Divider />
-                            <ListItem button divider>
-                                <ListItemText primary="Drafts" />
-                            </ListItem>
-                            <ListItem button>
-                                <ListItemText primary="Trash" />
-                            </ListItem>
-                            <Divider light />
-                            <ListItem button>
-                                <ListItemText primary="Spam" />
-                            </ListItem>
-                        </List>
-                    </ThemeProvider>
-                </div>
+                                <Button className={classes.button}>
+                                    ADD
+                                </Button>
+                            </div>
+                            <List className={classes.root}>
+                                {[0, 1, 2, 3].map((value) => {
+                                    const labelId = `checkbox-list-label-${value}`;
+
+                                    return (
+                                        <ListItem key={value} role={undefined} dense button
+                                                  onClick={handleToggle(value)}>
+                                            <ListItemIcon>
+                                                <Checkbox
+                                                    edge="start"
+                                                    checked={checked.indexOf(value) !== -1}
+                                                    tabIndex={-1}
+                                                    disableRipple
+                                                    inputProps={{'aria-labelledby': labelId}}
+                                                />
+                                            </ListItemIcon>
+                                            <ListItemText id={labelId} primary={`Line item ${value + 1}`}/>
+                                            <ListItemSecondaryAction>
+                                                <Button>
+                                                    <CloseIcon color={"error"}/>
+                                                </Button>
+                                            </ListItemSecondaryAction>
+                                        </ListItem>
+                                    );
+                                })}
+                            </List>
+                        </ThemeProvider>
+                    </div>
+                </Container>
             </header>
         </div>
     );

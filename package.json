@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.11.0",
+    "@material-ui/icons": "^4.9.1",
     "@material-ui/styles": "^4.10.0",
     "@testing-library/jest-dom": "^5.11.6",
     "@testing-library/react": "^11.2.1",
@@ -40,5 +41,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "json-server": "^0.16.3",
+    "node-sass": "^5.0.0",
+    "sass-loader": "^10.1.0"
   }
 }
