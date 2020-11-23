@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import {makeStyles, createMuiTheme} from '@material-ui/core/styles';
 import {
     TextField, ListItem, ListItemText, List, Container, ListItemIcon, ListItemSecondaryAction,
-    Checkbox
+    Checkbox, Input
 } from '@material-ui/core';
 import {ThemeProvider} from '@material-ui/styles';
 import Button from '@material-ui/core/Button';
@@ -43,7 +43,13 @@ const useStyles = makeStyles({
         flexDirection: 'column-reverse',
         cursor: 'pointer',
         fontSize: '2rem',
+        margin: '150px 0 0 0',
     },
+
+    inputBorder: {
+        border: '1px solid none',
+        color: 'white',
+    }
 });
 
 const theme = createMuiTheme({
@@ -176,7 +182,7 @@ function App() {
                                 </Button>
                             </div>
                             <List className={classes.root}>
-                                {[0, 1, 2, 3].map((value) => {
+                                {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((value) => {
                                     const labelId = `checkbox-list-label-${value}`;
 
                                     return (
@@ -191,7 +197,13 @@ function App() {
                                                     inputProps={{'aria-labelledby': labelId}}
                                                 />
                                             </ListItemIcon>
-                                            <ListItemText id={labelId} primary={`Line item ${value + 1}`}/>
+                                            <Input
+                                                id={labelId}
+                                                className={classes.inputBorder}
+                                                primary={`Line item ${value + 1}`}
+                                                defaultValue={`Line item ${value + 1}`}
+                                                inputProps={{ 'aria-label': 'description' }}
+                                            />
                                             <ListItemSecondaryAction>
                                                 <Button>
                                                     <CloseIcon color={"error"}/>
