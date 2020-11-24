@@ -19,6 +19,9 @@ import './App.css';
 import {addToDo, deletedToDO} from "../redux/actions";
 
 const useStyles = makeStyles({
+    root: {
+      marginTop: '15px'
+    },
     button: {
         background: 'inherit',
         border: '2px solid #61DAFB',
@@ -46,7 +49,6 @@ const useStyles = makeStyles({
         flexDirection: 'column-reverse',
         cursor: 'pointer',
         fontSize: '2rem',
-        margin: '150px 0 0 0',
     },
 
     inputBorder: {
@@ -90,48 +92,66 @@ const StyledTextField = styled(TextField)`
   }
 `;
 
+const AnimationButton = styled(Button)`
+    &:active {
+        transition: .2s ease-out;   
+        transform: scale(.9); 
+`;
+
+const AnimateRotate = styled(CloseIcon)`
+    &:hover {
+        transition: 0.6s ease-out;   
+        transform: rotate(360deg); 
+    }
+`;
+
 const Blue = styled.div`  
     &:hover {
        span {
         color: blue;
-        transition: 0.6s ease-out;
-        transform: scale(1.2);   
+        transition: 0.2s ease-out;
+        transform: scale(1.2);
+        margin-top: -3px;   
        }
     }
 `;
 const Yellow = styled.div`
-    transition: 0.6s ease-out;
+    transition: 0.2s ease-out;
     &:hover {
        span {
         color: yellow; 
-        transition: 0.6s ease-out;
-        transform: scale(1.2);    
+        transition: 0.2s ease-out;
+        transform: scale(1.2); 
+        margin-top: -3px;   
        }
     }
 `;
 const Green = styled.div`
-    transition: 0.6s ease-out;
+    transition: 0.2s ease-out;
     &:hover {
        span {
         color: green;  
-        transition: 0.6s ease-out;   
-        transform: scale(1.2);     
+        transition: 0.2s ease-out;   
+        transform: scale(1.2);
+        margin-top: -3px;     
        }
     }
 `;
 const Red = styled.div`
-    transition: 0.6s ease-out;
+    transition: 0.2s ease-out;
     &:hover {
        span {
         color: red;
-        transition: 0.6s ease-out;
-        transform: scale(1.2);              
+        transition: 0.2s ease-out;
+        transform: scale(1.2);  
+        margin-top: -3px;            
        }
     }
 `;
 
 function App() {
     let [name, setName] = useState();
+    let [editable, seteditable] = useState(false);
     let todos = useSelector(state => state)
     let dispatch = useDispatch();
     const classes = useStyles();
@@ -185,20 +205,22 @@ function App() {
                                     onChange={ (e) => setName(e.target.value)}
                                     value={name}
                                 />
-                                <Button
+                                <AnimationButton
                                     className={classes.button}
                                     onClick={() => {
-                                        dispatch(addToDo(
-                                            {
-                                                id: uuid(),
-                                                name: name,
-                                            }
-                                        ));
-                                        setName('');
+                                        if (name) {
+                                            dispatch(addToDo(
+                                                {
+                                                    id: uuid(),
+                                                    name: name,
+                                                }
+                                            ));
+                                            setName('');
+                                        }
                                     }}
                                 >
                                     ADD
-                                </Button>
+                                </AnimationButton>
                             </div>
                             <List className={classes.root}>
                                 {todos.map((value) => {
@@ -210,7 +232,7 @@ function App() {
                                             <ListItemIcon>
                                                 <Checkbox
                                                     edge="start"
-                                                    checked={checked.indexOf(value.id) !== -1}
+                                                    // checked={checked.indexOf(value.id) !== -1}
                                                     tabIndex={-1}
                                                     disableRipple
                                                 />
@@ -218,13 +240,16 @@ function App() {
                                             <Input
                                                 id={value.id}
                                                 className={classes.inputBorder}
-                                                primary={`${value.name}  №${value.id.length > 1 ? value.id[2] : value.id}`}
-                                                defaultValue={`${value.name}  №${value.id.length > 1 ? value.id[2] : value.id}`}
+                                                primary={`${value.name}`}
+                                                defaultValue={`${value.name.split(' ').filter(e => e.trim().length).join(' ')}`}
                                                 inputProps={{'aria-label': 'description'}}
+                                                autoComplete={false}
+                                                fullWidth
+                                                width={50}
                                             />
                                             <ListItemSecondaryAction>
                                                 <Button onClick={() => dispatch(deletedToDO(value.id))}>
-                                                    <CloseIcon color={"error"}/>
+                                                    <AnimateRotate color={"error"}/>
                                                 </Button>
                                             </ListItemSecondaryAction>
                                         </ListItem>
