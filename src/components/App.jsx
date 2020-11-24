@@ -1,8 +1,10 @@
-import React from 'react';
+import React, {useState} from 'react';
+import {useSelector, useDispatch} from 'react-redux'
+import {v1 as uuid} from 'uuid';
 import styled from 'styled-components';
 import {makeStyles, createMuiTheme} from '@material-ui/core/styles';
 import {
-    TextField, ListItem, ListItemText, List, Container, ListItemIcon, ListItemSecondaryAction,
+    TextField, ListItem, List, Container, ListItemIcon, ListItemSecondaryAction,
     Checkbox, Input
 } from '@material-ui/core';
 import {ThemeProvider} from '@material-ui/styles';
@@ -14,6 +16,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import CloseIcon from '@material-ui/icons/Close';
 
 import './App.css';
+import {addToDo, deletedToDO} from "../redux/actions";
 
 const useStyles = makeStyles({
     button: {
@@ -128,6 +131,9 @@ const Red = styled.div`
 `;
 
 function App() {
+    let [name, setName] = useState();
+    let todos = useSelector(state => state)
+    let dispatch = useDispatch();
     const classes = useStyles();
 
     const [checked, setChecked] = React.useState([1]);
@@ -176,36 +182,49 @@ function App() {
                                     label="Заметочка"
                                     variant="outlined"
                                     id="deterministic-outlined-input"
+                                    onChange={ (e) => setName(e.target.value)}
+                                    value={name}
                                 />
-                                <Button className={classes.button}>
+                                <Button
+                                    className={classes.button}
+                                    onClick={() => {
+                                        dispatch(addToDo(
+                                            {
+                                                id: uuid(),
+                                                name: name,
+                                            }
+                                        ));
+                                        setName('');
+                                    }}
+                                >
                                     ADD
                                 </Button>
                             </div>
                             <List className={classes.root}>
-                                {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((value) => {
+                                {todos.map((value) => {
                                     const labelId = `checkbox-list-label-${value}`;
 
                                     return (
-                                        <ListItem key={value} role={undefined} dense button
-                                                  onClick={handleToggle(value)}>
+                                        <ListItem key={value.id} role={undefined} dense button
+                                                  onClick={handleToggle(value.id)}>
                                             <ListItemIcon>
                                                 <Checkbox
                                                     edge="start"
-                                                    checked={checked.indexOf(value) !== -1}
+                                                    checked={checked.indexOf(value.id) !== -1}
                                                     tabIndex={-1}
                                                     disableRipple
                                                     inputProps={{'aria-labelledby': labelId}}
                                                 />
                                             </ListItemIcon>
                                             <Input
-                                                id={labelId}
+                                                id={value.id}
                                                 className={classes.inputBorder}
-                                                primary={`Line item ${value + 1}`}
-                                                defaultValue={`Line item ${value + 1}`}
-                                                inputProps={{ 'aria-label': 'description' }}
+                                                primary={`${value.name}  ${value.id.length > 1 ? value.id[2] : value.id}`}
+                                                defaultValue={`${value.name}  ${value.id.length > 1 ? value.id[2] : value.id}`}
+                                                inputProps={{'aria-label': 'description'}}
                                             />
                                             <ListItemSecondaryAction>
-                                                <Button>
+                                                <Button onClick={() => dispatch(deletedToDO(value.id))}>
                                                     <CloseIcon color={"error"}/>
                                                 </Button>
                                             </ListItemSecondaryAction>
