@@ -17,6 +17,9 @@ import CloseIcon from '@material-ui/icons/Close';
 
 import './App.css';
 import {addToDo, deletedToDO} from "../redux/actions";
+import spaceStar from '../img/star_outline-24px.svg';
+import spaceHalfStar from '../img/star_half-24px.svg';
+import spaceFullStar from '../img/star-24px.svg';
 
 const useStyles = makeStyles({
     root: {
@@ -54,7 +57,7 @@ const useStyles = makeStyles({
     inputBorder: {
         border: '1px solid none',
         color: 'white',
-    }
+    },
 });
 
 const theme = createMuiTheme({
@@ -247,6 +250,9 @@ function App() {
                                                 fullWidth
                                                 width={50}
                                             />
+                                            {/*<Button>*/}
+                                            {/*    <img className={classes.margin} src={spaceStar} alt=""/>*/}
+                                            {/*</Button>*/}
                                             <ListItemSecondaryAction>
                                                 <Button onClick={() => dispatch(deletedToDO(value.id))}>
                                                     <AnimateRotate color={"error"}/>
