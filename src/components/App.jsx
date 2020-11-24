@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import {makeStyles, createMuiTheme} from '@material-ui/core/styles';
 import {
     TextField, ListItem, List, Container, ListItemIcon, ListItemSecondaryAction,
-    Checkbox, Input
+    Checkbox, Input, ListItemText
 } from '@material-ui/core';
 import {ThemeProvider} from '@material-ui/styles';
 import Button from '@material-ui/core/Button';
@@ -213,14 +213,13 @@ function App() {
                                                     checked={checked.indexOf(value.id) !== -1}
                                                     tabIndex={-1}
                                                     disableRipple
-                                                    inputProps={{'aria-labelledby': labelId}}
                                                 />
                                             </ListItemIcon>
                                             <Input
                                                 id={value.id}
                                                 className={classes.inputBorder}
-                                                primary={`${value.name}  ${value.id.length > 1 ? value.id[2] : value.id}`}
-                                                defaultValue={`${value.name}  ${value.id.length > 1 ? value.id[2] : value.id}`}
+                                                primary={`${value.name}  №${value.id.length > 1 ? value.id[2] : value.id}`}
+                                                defaultValue={`${value.name}  №${value.id.length > 1 ? value.id[2] : value.id}`}
                                                 inputProps={{'aria-label': 'description'}}
                                             />
                                             <ListItemSecondaryAction>
