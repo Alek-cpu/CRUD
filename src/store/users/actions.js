@@ -1,6 +1,4 @@
-export const ADD_TODO = 'ADD_TODO';
-export const DELETE_TODO = 'DELETE_TODO';
-export const UPDATE_TODO = 'EDIT_TODO';
+import {ADD_TODO, UPDATE_TODO, DELETE_TODO} from './types';
 
 export function addToDo(todo) {
     return {

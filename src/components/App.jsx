@@ -1,25 +1,23 @@
 import React, {useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux'
+import moment from "moment";
 import {v1 as uuid} from 'uuid';
 import styled from 'styled-components';
 import {makeStyles, createMuiTheme} from '@material-ui/core/styles';
 import {
-    TextField, ListItem, List, Container, ListItemIcon, ListItemSecondaryAction,
-    Checkbox, Input, ListItemText
+        TextField, ListItem, List, Container, ListItemIcon, ListItemSecondaryAction,
+        Checkbox, Input, ListItemText
 } from '@material-ui/core';
 import {ThemeProvider} from '@material-ui/styles';
 import Button from '@material-ui/core/Button';
-import CreateIcon from '@material-ui/icons/Create';
-import LocalLibraryIcon from '@material-ui/icons/LocalLibrary';
-import UpdateIcon from '@material-ui/icons/Update';
-import DeleteIcon from '@material-ui/icons/Delete';
 import CloseIcon from '@material-ui/icons/Close';
 
-import './App.css';
-import {addToDo, deletedToDO} from "../redux/actions";
-import spaceStar from '../img/star_outline-24px.svg';
-import spaceHalfStar from '../img/star_half-24px.svg';
-import spaceFullStar from '../img/star-24px.svg';
+import CrudName from "./CrudName/CrudName";
+import './App.scss';
+import {addToDo, deletedToDO} from "../store/users/actions";
+import SpaceStar from '../img/star_outline-24px.svg';
+import SpaceHalfStar from '../img/star_half-24px.svg';
+import SpaceFullStar from '../img/star-24px.svg';
 
 const useStyles = makeStyles({
     root: {
@@ -58,6 +56,16 @@ const useStyles = makeStyles({
         border: '1px solid none',
         color: 'white',
     },
+    timeMessage: {
+        fontSize: '12px',
+        color: '#696969',
+    },
+
+    timeLocation: {
+        display: 'flex',
+        width: 'inherit',
+        alignItems: 'center',
+    }
 });
 
 const theme = createMuiTheme({
@@ -108,50 +116,6 @@ const AnimateRotate = styled(CloseIcon)`
     }
 `;
 
-const Blue = styled.div`  
-    &:hover {
-       span {
-        color: blue;
-        transition: 0.2s ease-out;
-        transform: scale(1.2);
-        margin-top: -3px;   
-       }
-    }
-`;
-const Yellow = styled.div`
-    transition: 0.2s ease-out;
-    &:hover {
-       span {
-        color: yellow; 
-        transition: 0.2s ease-out;
-        transform: scale(1.2); 
-        margin-top: -3px;   
-       }
-    }
-`;
-const Green = styled.div`
-    transition: 0.2s ease-out;
-    &:hover {
-       span {
-        color: green;  
-        transition: 0.2s ease-out;   
-        transform: scale(1.2);
-        margin-top: -3px;     
-       }
-    }
-`;
-const Red = styled.div`
-    transition: 0.2s ease-out;
-    &:hover {
-       span {
-        color: red;
-        transition: 0.2s ease-out;
-        transform: scale(1.2);  
-        margin-top: -3px;            
-       }
-    }
-`;
-
 function App() {
     let [name, setName] = useState();
     let [editable, seteditable] = useState(false);
@@ -179,24 +143,7 @@ function App() {
         <div className="App">
             <header className="App-header">
                 <Container fixed>
-                    <div className={classes.line}>
-                        <Blue className={classes.column}>
-                            <span className={classes.blue}>C</span>
-                            <span className={classes.blue}><CreateIcon/></span>
-                        </Blue>
-                        <Yellow className={classes.column}>
-                            <span className={classes.yellow}>R</span>
-                            <span className={classes.yellow}><LocalLibraryIcon/></span>
-                        </Yellow>
-                        <Green className={classes.column}>
-                            <span className={classes.green}>U</span>
-                            <span className={classes.green}><UpdateIcon/></span>
-                        </Green>
-                        <Red className={classes.column}>
-                            <span className={classes.red}>D</span>
-                            <span className={classes.red}><DeleteIcon/></span>
-                        </Red>
-                    </div>
+                    <CrudName />
                     <div>
                         <ThemeProvider theme={theme}>
                             <div className={classes.display_line}>
@@ -211,11 +158,12 @@ function App() {
                                 <AnimationButton
                                     className={classes.button}
                                     onClick={() => {
-                                        if (name) {
+                                        if ( name && name.trim()) {
                                             dispatch(addToDo(
                                                 {
                                                     id: uuid(),
-                                                    name: name,
+                                                    name: name.split(' ').filter(e => e.trim().length).join(' '),
+                                                    time: moment().format('LTS'),
                                                 }
                                             ));
                                             setName('');
@@ -244,16 +192,15 @@ function App() {
                                                 id={value.id}
                                                 className={classes.inputBorder}
                                                 primary={`${value.name}`}
-                                                defaultValue={`${value.name.split(' ').filter(e => e.trim().length).join(' ')}`}
+                                                defaultValue={`${value.name}`}
                                                 inputProps={{'aria-label': 'description'}}
                                                 autoComplete={false}
                                                 fullWidth
                                                 width={50}
                                             />
-                                            {/*<Button>*/}
-                                            {/*    <img className={classes.margin} src={spaceStar} alt=""/>*/}
-                                            {/*</Button>*/}
-                                            <ListItemSecondaryAction>
+                                            <ListItemSecondaryAction className={classes.timeLocation}>
+                                                <div className={classes.timeMessage}>{value.time}</div>
+                                                <img src={SpaceFullStar} alt=""/>
                                                 <Button onClick={() => dispatch(deletedToDO(value.id))}>
                                                     <AnimateRotate color={"error"}/>
                                                 </Button>
