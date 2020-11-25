@@ -116,6 +116,12 @@ const AnimateRotate = styled(CloseIcon)`
     }
 `;
 
+const WidthInput = styled(Input)`
+    .MuiInput-root {
+        padding-right: 10%;
+    }
+`;
+
 function App() {
     let [name, setName] = useState();
     let [editable, seteditable] = useState(false);
@@ -138,7 +144,6 @@ function App() {
         setChecked(newChecked);
     };
 
-
     return (
         <div className="App">
             <header className="App-header">
@@ -146,7 +151,21 @@ function App() {
                     <CrudName />
                     <div>
                         <ThemeProvider theme={theme}>
-                            <div className={classes.display_line}>
+                            <form
+                                onSubmit={(e)=>{
+                                    e.preventDefault()
+                                    if ( name && name.trim()) {
+                                        dispatch(addToDo(
+                                            {
+                                                id: uuid(),
+                                                name: name.split(' ').filter(e => e.trim().length).join(' '),
+                                                time: moment().format('LTS'),
+                                            }
+                                        ));
+                                        setName('');
+                                    }
+                                }}
+                                className={classes.display_line}>
                                 <StyledTextField
                                     color="secondary"
                                     label="Заметочка"
@@ -172,7 +191,7 @@ function App() {
                                 >
                                     ADD
                                 </AnimationButton>
-                            </div>
+                            </form>
                             <List className={classes.root}>
                                 {todos.map((value) => {
                                     const labelId = `checkbox-list-label-${value}`;
@@ -188,7 +207,7 @@ function App() {
                                                     disableRipple
                                                 />
                                             </ListItemIcon>
-                                            <Input
+                                            <WidthInput
                                                 id={value.id}
                                                 className={classes.inputBorder}
                                                 primary={`${value.name}`}
@@ -196,7 +215,6 @@ function App() {
                                                 inputProps={{'aria-label': 'description'}}
                                                 autoComplete={false}
                                                 fullWidth
-                                                width={50}
                                             />
                                             <ListItemSecondaryAction className={classes.timeLocation}>
                                                 <div className={classes.timeMessage}>{value.time}</div>
