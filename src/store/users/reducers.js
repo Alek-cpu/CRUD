@@ -1,4 +1,6 @@
-import { ADD_TODO, DELETE_TODO, UPDATE_TODO } from './types';
+import {
+    ADD_TODO, DELETE_TODO, UPDATE_TODO
+} from './types';
 import { todos } from "./states";
 
 export const reducer = (state = todos, action) => {
