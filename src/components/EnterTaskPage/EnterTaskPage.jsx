@@ -1,4 +1,5 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
+import {fetch} from "../../store/users/actions";
 import {createMuiTheme, makeStyles} from "@material-ui/core/styles";
 import styled from "styled-components";
 import {ThemeProvider} from "@material-ui/styles";
@@ -37,6 +38,8 @@ const useStyles = makeStyles({
     timeMessage: {
         fontSize: '12px',
         color: '#696969',
+        width: '110px',
+        padding: '0 5px',
     },
 
     timeLocation: {
@@ -55,19 +58,21 @@ const theme = createMuiTheme({
 });
 
 const AnimateRotate = styled(CloseIcon)`
-    &:hover {
-        transition: 0.6s ease-out;   
-        transform: rotate(360deg); 
-    }
+  &:hover {
+    transition: 0.6s ease-out;
+    transform: rotate(360deg);
+  }
 `;
 
 export const EnterTaskPage = () => {
 
     let dispatch = useDispatch();
     let todos = useSelector(state => state);
+
     const classes = useStyles();
 
     const [checked, setChecked] = useState([1]);
+    const [star, setStar] = useState([SpaceStar])
 
     const handleToggle = (value) => () => {
         const currentIndex = checked.indexOf(value);
@@ -82,55 +87,52 @@ export const EnterTaskPage = () => {
         setChecked(newChecked);
     };
 
-    return(
+    return (
         <>
             <ThemeProvider theme={theme}>
-                <EnterField />
+                <EnterField/>
                 <List className={classes.root}>
                     {todos.map((value) => {
                         const labelId = `checkbox-list-label-${value}`;
                         return (
-                            <ListItem key={value.id} role={undefined} dense button
-                                      onClick={handleToggle(value.id)}>
-                                <ListItemIcon>
-                                    <Checkbox
-                                        edge="start"
-                                        tabIndex={-1}
-                                        disableRipple
-                                    />
-                                </ListItemIcon>
-                                <Input
-                                    id={value.id}
-                                    className={classes.inputBorder}
-                                    primary={`${value.name}`}
-                                    defaultValue={`${value.name}`}
-                                    inputProps={{'aria-label': 'description'}}
-                                    fullWidth
-                                />
-                                <ListItemSecondaryAction className={classes.timeLocation}>
-                                    <div className={classes.timeMessage}>{value.time}</div>
-                                    <img
-                                        src={SpaceStar}
-                                        onMouseOver={e => (e.currentTarget.src = SpaceHalfStar)}
-                                        onMouseOut={e => (e.currentTarget.src = SpaceStar)}
-                                        onClick={e => (e.currentTarget.src = SpaceFullStar)}
-                                    />
-                                    <Button onClick={() => dispatch(deletedToDO(value.id))}>
-                                        <AnimateRotate color={"error"}/>
-                                    </Button>
-                                </ListItemSecondaryAction>
-                            </ListItem>
+                            <>
+                                {value.name ?
+                                    <ListItem key={value.id} role={undefined} dense button
+                                              onClick={handleToggle(value.id)}>
+                                        <ListItemIcon>
+                                            <Checkbox
+                                                edge="start"
+                                                tabIndex={-1}
+                                                disableRipple
+                                            />
+                                        </ListItemIcon>
+                                        <Input
+                                            id={value.id}
+                                            className={classes.inputBorder}
+                                            primary={`${value.name}`}
+                                            defaultValue={`${value.name}`}
+                                            inputProps={{'aria-label': 'description'}}
+                                            fullWidth
+                                        />
+                                        {/*<ListItemSecondaryAction className={classes.timeLocation}>*/}
+                                        <div className={classes.timeMessage}>{value.time}</div>
+                                        <img
+                                            src={star}
+                                            onMouseOver={() => setStar([SpaceHalfStar])}
+                                            onClick={() => setStar([SpaceFullStar])}
+                                        />
+                                        <Button onClick={() => dispatch(deletedToDO(value.id))}>
+                                            <AnimateRotate color={"error"}/>
+                                        </Button>
+                                        {/*</ListItemSecondaryAction>*/}
+                                    </ListItem> :
+                                     <p>(ПУСТО)</p>
+                                }
+                            </>
                         );
                     })}
                 </List>
             </ThemeProvider>
-            {/*<ul>*/}
-            {/*    {data.all.map(item => (*/}
-            {/*        <li key={item.objectID}>*/}
-            {/*            <a href={item.url}>{item.title}</a>*/}
-            {/*        </li>*/}
-            {/*    ))}*/}
-            {/*</ul>*/}
         </>
     );
 }

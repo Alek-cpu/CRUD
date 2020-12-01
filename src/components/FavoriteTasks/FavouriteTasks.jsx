@@ -1,8 +1,10 @@
-import {Checkbox, Input, List, ListItem, ListItemIcon, ListItemSecondaryAction} from "@material-ui/core";
-import React from "react";
+import React, {useState,useEffect} from "react";
+import Button from "@material-ui/core/Button";
 
-export const FavouriteTasks = () => {
+export default function FavouriteTasks () {
     return(
-      <p>ПУСТО</p>
+        <>
+            <p>(ПУСТО)</p>
+        </>
     );
 }

@@ -1,22 +1,31 @@
-import {ADD_TODO, UPDATE_TODO, DELETE_TODO} from './types';
+import axios from 'axios';
+import {
+    ADD_TODO,
+    UPDATE_TODO,
+    DELETE_TODO,
+    FETCH_TODO
+} from './types';
 
-export function addToDo(todo) {
-    return {
-        type: ADD_TODO,
-        payload: todo,
-    }
+export const fetch = (todo) => async dispatch  => {
+    const response = await axios.get('http://localhost:3001/allTasks');
+
+    dispatch({
+        type: FETCH_TODO,
+        payload: response.data
+    });
 }
 
-export function deletedToDO(todoId) {
-    return {
-        type: DELETE_TODO,
-        payload: todoId,
-    }
-}
+export const addToDo = (todo) => ({
+    type: ADD_TODO,
+    payload: todo,
+});
 
-export function update(todo) {
-    return {
-        type: UPDATE_TODO,
-        payload: todo,
-    }
-}
+export const deletedToDO = (todoId) => ({
+    type: DELETE_TODO,
+    payload: todoId,
+});
+
+export const update = (todo) => ({
+    type: UPDATE_TODO,
+    payload: todo,
+})

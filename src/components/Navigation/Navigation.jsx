@@ -1,7 +1,7 @@
 import {PaginationButton} from "../../forms/button/PaginationButton";
 import styled from "styled-components";
 import TasksIcon from "../../img/wysiwyg-24px.svg";
-import FavoriteIcon from "../../img/star-24px.svg";
+import FavoriteIcon from "../../img/star-white.svg";
 import {Button} from "@material-ui/core";
 
 const NavigationButtonBackground = styled.div`
@@ -16,13 +16,13 @@ export const NavigationButton = () => {
                 color={"primary"}
                 textField={"Главная"}
                 icon={TasksIcon}
-                path={'/alltask'}
+                path={'/alltask'}//Вывести роуты в отделенный файл
             />
             <PaginationButton
-                color={"secondary"}
+                color={"primary"}
                 textField={"Избранные"}
                 icon={FavoriteIcon}
-                path={'/favourite-task'}
+                path={'/favourite-task'}//Вывести роуты в отделенный файл
             />
         </NavigationButtonBackground>
     );

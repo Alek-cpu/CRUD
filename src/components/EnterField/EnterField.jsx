@@ -1,12 +1,13 @@
 import {addToDo} from "../../store/users/actions";
 import {v1 as uuid} from "uuid";
-import moment from "moment";
+import { format, compareAsc } from 'date-fns'
 import React, {useState} from "react";
 import {makeStyles} from "@material-ui/core/styles";
 import {useDispatch, useSelector} from "react-redux";
 import styled from "styled-components";
 import {TextField} from "@material-ui/core";
 import Button from "@material-ui/core/Button";
+import {SortButton} from "../../forms/SortButton/SortButton";
 
 const useStyles = makeStyles({
     button: {
@@ -29,26 +30,26 @@ const useStyles = makeStyles({
 
 const StyledTextField = styled(TextField)`
   label {
-    color: #61DAFB; 💚
+    color: #61DAFB;
   }
   label:selected {
-    color: "#61DAFB"; 💚
+    color: "#61DAFB";
   }
   label:focus {
-    color: "#61DAFB"; 💚
+    color: "#61DAFB";
   }
   .MuiOutlinedInput-root {
     color: #61DAFB;
     fieldset {
-      border-color: #61DAFB; 💔
+      border-color: #61DAFB;
       color: #61DAFB;
     }
     &:hover fieldset {
-      border-color: yellow; 💛
+      border-color: yellow;
       color: #61DAFB;
     }
     &.Mui-focused fieldset {
-      border-color: #61DAFB; 💚
+      border-color: #61DAFB;
       color: #61DAFB;
     }
   }
@@ -69,46 +70,49 @@ export const EnterField = () => {
     const classes = useStyles();
 
     return(
-        <form
-            onSubmit={(e)=>{
-                e.preventDefault()
-                if ( name && name.trim()) {
-                    dispatch(addToDo(
-                        {
-                            id: uuid(),
-                            name: name.split(' ').filter(e => e.trim().length).join(' '),
-                            time: moment().format('LTS'),
-                        }
-                    ));
-                    setName('');
-                }
-            }}
-            className={classes.display_line}>
-            <StyledTextField
-                color="secondary"
-                label="Заметочка"
-                variant="outlined"
-                id="deterministic-outlined-input"
-                onChange={ (e) => setName(e.target.value)}
-                value={name}
-            />
-            <AnimationButton
-                className={classes.button}
-                onClick={() => {
+        <>
+            <SortButton />
+            <form
+                onSubmit={(e)=>{
+                    e.preventDefault()
                     if ( name && name.trim()) {
                         dispatch(addToDo(
                             {
                                 id: uuid(),
                                 name: name.split(' ').filter(e => e.trim().length).join(' '),
-                                time: moment().format('LTS'),
+                                time: format(new Date(), 'yyyy-MM-dd'),
                             }
                         ));
                         setName('');
                     }
                 }}
-            >
-                ADD
-            </AnimationButton>
-        </form>
+                className={classes.display_line}>
+                <StyledTextField
+                    color="secondary"
+                    label="Заметочка"
+                    variant="outlined"
+                    id="deterministic-outlined-input"
+                    onChange={ (e) => setName(e.target.value)}
+                    value={name}
+                />
+                <AnimationButton
+                    className={classes.button}
+                    onClick={() => {
+                        if ( name && name.trim()) {
+                            dispatch(addToDo(
+                                {
+                                    id: uuid(),
+                                    name: name.split(' ').filter(e => e.trim().length).join(' '),
+                                    time: format(new Date(), 'yyyy-MM-dd'),
+                                }
+                            ));
+                            setName('');
+                        }
+                    }}
+                >
+                    ADD
+                </AnimationButton>
+            </form>
+        </>
     );
 }
