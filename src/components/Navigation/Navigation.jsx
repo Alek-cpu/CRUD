@@ -1,6 +1,6 @@
 import {PaginationButton} from "../../forms/button/PaginationButton";
 import styled from "styled-components";
-import TasksIcon from "../../img/wysiwyg-24px.svg";
+import TasksIcon from "../../img/menu_book-24px.svg";
 import FavoriteIcon from "../../img/star-white.svg";
 import {Button} from "@material-ui/core";
 

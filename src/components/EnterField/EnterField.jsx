@@ -1,10 +1,13 @@
-import {addToDo} from "../../store/users/actions";
-import {v1 as uuid} from "uuid";
-import { format, compareAsc } from 'date-fns'
-import React, {useState} from "react";
-import {makeStyles} from "@material-ui/core/styles";
+import React, {useState, useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
+import {v1 as uuid} from "uuid";
+import {format, compareAsc} from 'date-fns';
+import axios from "axios";
 import styled from "styled-components";
+
+import {addToDo} from "../../store/users/actions";
+
+import {makeStyles} from "@material-ui/core/styles";
 import {TextField} from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import {SortButton} from "../../forms/SortButton/SortButton";
@@ -32,22 +35,28 @@ const StyledTextField = styled(TextField)`
   label {
     color: #61DAFB;
   }
+
   label:selected {
     color: "#61DAFB";
   }
+
   label:focus {
     color: "#61DAFB";
   }
+
   .MuiOutlinedInput-root {
     color: #61DAFB;
+
     fieldset {
       border-color: #61DAFB;
       color: #61DAFB;
     }
+
     &:hover fieldset {
       border-color: yellow;
       color: #61DAFB;
     }
+
     &.Mui-focused fieldset {
       border-color: #61DAFB;
       color: #61DAFB;
@@ -56,32 +65,53 @@ const StyledTextField = styled(TextField)`
 `;
 
 const AnimationButton = styled(Button)`
-    &:active {
-        transition: .2s ease-out;   
-        transform: scale(.9); 
+  &:active {
+    transition: .2s ease-out;
+    transform: scale(.9);
 `;
 
 export const EnterField = () => {
 
     const [name, setName] = useState();
-    let [editable, seteditable] = useState(false);
+    const [task, setTask] = useState({
+        id: '',
+        text: '',
+        time: ''
+    });
     let todos = useSelector(state => state)
     let dispatch = useDispatch();
     const classes = useStyles();
 
-    return(
+
+    useEffect(() => {
+        if (task.text !== "") {
+            axios.post('http://localhost:3001/allTasks', task
+            )
+                .then(function (response) {
+                    console.log(response);
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        }
+    }, [task]);
+
+    return (
         <>
-            <SortButton />
+            <SortButton/>
             <form
-                onSubmit={(e)=>{
+                onSubmit={(e) => {
                     e.preventDefault()
-                    if ( name && name.trim()) {
+                    console.log(JSON.stringify(task))
+                    if (name && name.trim()) {
                         dispatch(addToDo(
-                            {
-                                id: uuid(),
-                                name: name.split(' ').filter(e => e.trim().length).join(' '),
-                                time: format(new Date(), 'yyyy-MM-dd'),
-                            }
+                            setTask(
+                                {
+                                    id: uuid(),
+                                    text: name.split(' ').filter(e => e.trim().length).join(' '),
+                                    time: `${format(new Date(), 'yyyy-MM-dd')}`,
+                                }
+                            )
                         ));
                         setName('');
                     }
@@ -92,19 +122,21 @@ export const EnterField = () => {
                     label="Заметочка"
                     variant="outlined"
                     id="deterministic-outlined-input"
-                    onChange={ (e) => setName(e.target.value)}
+                    onChange={(e) => setName(e.target.value)}
                     value={name}
                 />
                 <AnimationButton
                     className={classes.button}
                     onClick={() => {
-                        if ( name && name.trim()) {
+                        if (name && name.trim()) {
                             dispatch(addToDo(
-                                {
-                                    id: uuid(),
-                                    name: name.split(' ').filter(e => e.trim().length).join(' '),
-                                    time: format(new Date(), 'yyyy-MM-dd'),
-                                }
+                                setTask(
+                                    {
+                                        id: uuid(),
+                                        text: name.split(' ').filter(e => e.trim().length).join(' '),
+                                        time: `${format(new Date(), 'yyyy-MM-dd')}`,
+                                    }
+                                )
                             ));
                             setName('');
                         }
