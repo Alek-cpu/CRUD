@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {v1 as uuid} from "uuid";
-import {format, compareAsc} from 'date-fns';
+import { format, compareAsc } from 'date-fns';
 import axios from "axios";
 import styled from "styled-components";
 
@@ -36,12 +36,8 @@ const StyledTextField = styled(TextField)`
     color: #61DAFB;
   }
 
-  label:selected {
-    color: "#61DAFB";
-  }
-
   label:focus {
-    color: "#61DAFB";
+    color: #61DAFB;
   }
 
   .MuiOutlinedInput-root {
@@ -76,7 +72,8 @@ export const EnterField = () => {
     const [task, setTask] = useState({
         id: '',
         text: '',
-        time: ''
+        time: '',
+        favorite: false
     });
     let todos = useSelector(state => state)
     let dispatch = useDispatch();
@@ -110,6 +107,7 @@ export const EnterField = () => {
                                     id: uuid(),
                                     text: name.split(' ').filter(e => e.trim().length).join(' '),
                                     time: `${format(new Date(), 'yyyy-MM-dd')}`,
+                                    favorite: false
                                 }
                             )
                         ));
@@ -135,6 +133,7 @@ export const EnterField = () => {
                                         id: uuid(),
                                         text: name.split(' ').filter(e => e.trim().length).join(' '),
                                         time: `${format(new Date(), 'yyyy-MM-dd')}`,
+                                        favorite: false
                                     }
                                 )
                             ));
