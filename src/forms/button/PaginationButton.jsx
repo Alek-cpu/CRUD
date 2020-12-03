@@ -1,5 +1,4 @@
 import {Button, ListItemSecondaryAction} from "@material-ui/core";
-import {deletedToDO} from "../../store/users/actions";
 import styled from "styled-components";
 import React from "react";
 import {NavLink, Link} from "react-router-dom";

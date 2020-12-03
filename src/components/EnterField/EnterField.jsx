@@ -2,7 +2,6 @@ import React, {useState, useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {v1 as uuid} from "uuid";
 import { format, compareAsc } from 'date-fns';
-import axios from "axios";
 import styled from "styled-components";
 
 import {addToDo} from "../../store/users/actions";
@@ -11,6 +10,7 @@ import {makeStyles} from "@material-ui/core/styles";
 import {TextField} from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import {SortButton} from "../../forms/SortButton/SortButton";
+import {tasksAPI} from "../../utils/api";
 
 const useStyles = makeStyles({
     button: {
@@ -82,14 +82,7 @@ export const EnterField = () => {
 
     useEffect(() => {
         if (task.text !== "") {
-            axios.post('http://localhost:3001/allTasks', task
-            )
-                .then(function (response) {
-                    console.log(response);
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
+            tasksAPI.postTasks(task)
         }
     }, [task]);
 
@@ -104,7 +97,7 @@ export const EnterField = () => {
                         dispatch(addToDo(
                             setTask(
                                 {
-                                    id: uuid(),
+                                    // id: uuid(),
                                     text: name.split(' ').filter(e => e.trim().length).join(' '),
                                     time: `${format(new Date(), 'yyyy-MM-dd')}`,
                                     favorite: false
@@ -130,7 +123,7 @@ export const EnterField = () => {
                             dispatch(addToDo(
                                 setTask(
                                     {
-                                        id: uuid(),
+                                        // id: uuid(),
                                         text: name.split(' ').filter(e => e.trim().length).join(' '),
                                         time: `${format(new Date(), 'yyyy-MM-dd')}`,
                                         favorite: false

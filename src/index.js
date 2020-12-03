@@ -7,12 +7,12 @@ import './index.scss';
 import App from './components/App/App';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <Provider store={index}>
-        <App />
-    </Provider>
-  </React.StrictMode>,
-  document.getElementById('root')
+    <React.StrictMode>
+        <Provider store={index}>
+            <App />
+        </Provider>
+    </React.StrictMode>,
+    document.getElementById('root')
 );
 
 // If you want to start measuring performance in your app, pass a function

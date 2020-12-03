@@ -12,7 +12,7 @@ export const reducer = (state = todos, action) => {
         case DELETE_TODO:
             return [...state].filter(value => value.id !== action.payload);
         case UPDATE_TODO:
-            break;
+            return state;
     }
     return state;
 }

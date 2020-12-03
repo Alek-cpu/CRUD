@@ -6,7 +6,6 @@ import {
     Checkbox, Input, List, ListItem, ListItemIcon, ListItemSecondaryAction
 } from "@material-ui/core";
 import {useDispatch, useSelector} from "react-redux";
-import axios from "axios";
 
 import {fetch} from "../../store/users/actions";
 import {deletedToDO} from "../../store/users/actions";
@@ -17,6 +16,7 @@ import SpaceStar from "../../img/star_outline-24px.svg";
 import SpaceHalfStar from "../../img/star_half-24px.svg";
 import SpaceFullStar from "../../img/star-24px.svg";
 import {EnterField} from "../EnterField/EnterField";
+import {tasksAPI} from "../../utils/api";
 
 const useStyles = makeStyles({
     root: {
@@ -77,13 +77,17 @@ export const EnterTaskPage = () => {
     const [checked, setChecked] = useState([1]);
     const [star, setStar] = useState([SpaceStar]);
     const [data, setData] = useState([]);
+    const [deleted, setDeleted] = useState([]);
 
     useEffect(() => {
-        axios.get('http://localhost:3001/allTasks')
-            .then(({data}) => {
+        tasksAPI.getTasks().then(({data}) => {
                 setData(data);
             })
     }, []);
+
+    useEffect(() => {
+        dispatch(deletedToDO(tasksAPI.deleteTasks(deleted)))
+    }, [deleted]);
 
     const handleToggle = (value) => () => {
         const currentIndex = checked.indexOf(value);
@@ -131,7 +135,7 @@ export const EnterTaskPage = () => {
                                         onMouseOver={() => setStar([SpaceHalfStar])}
                                         onClick={() => setStar([SpaceFullStar])}
                                     />
-                                    <Button onClick={() => dispatch(deletedToDO(value.id))}>
+                                    <Button onClick={() => dispatch(deletedToDO(setDeleted([value.id])))}>
                                         <AnimateRotate color={"error"}/>
                                     </Button>
                                     {/*</ListItemSecondaryAction>*/}
