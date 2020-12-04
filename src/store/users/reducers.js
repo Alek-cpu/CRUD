@@ -10,7 +10,7 @@ export const reducer = (state = todos, action) => {
         case ADD_TODO:
             return [...state, action.payload];
         case DELETE_TODO:
-            return [...state].filter(value => value.id !== action.payload);
+            return [...state].filter((item, index) => index !== action.payload);
         case UPDATE_TODO:
             return state;
     }

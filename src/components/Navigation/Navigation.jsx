@@ -3,11 +3,7 @@ import styled from "styled-components";
 import TasksIcon from "../../img/menu_book-24px.svg";
 import FavoriteIcon from "../../img/star-white.svg";
 import {Button} from "@material-ui/core";
-
-const NavigationButtonBackground = styled.div`
-    display: flex;
-    gap: 10px;
-`;
+import {NavigationButtonBackground} from "../../styled/NavigationButtonBackground";
 
 export const NavigationButton = () => {
     return(
@@ -16,13 +12,13 @@ export const NavigationButton = () => {
                 color={"primary"}
                 textField={"Главная"}
                 icon={TasksIcon}
-                path={'/alltask'}//Вывести роуты в отделенный файл
+                path={'/'}
             />
             <PaginationButton
                 color={"primary"}
                 textField={"Избранные"}
                 icon={FavoriteIcon}
-                path={'/favourite-task'}//Вывести роуты в отделенный файл
+                path={'/favourite-task'}
             />
         </NavigationButtonBackground>
     );

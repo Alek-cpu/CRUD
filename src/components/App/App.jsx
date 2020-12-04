@@ -2,18 +2,19 @@ import axios from 'axios';
 import styled from 'styled-components';
 import {makeStyles, createMuiTheme} from '@material-ui/core/styles';
 import {ListItem, List, Container, Button} from '@material-ui/core';
-import '@babel/polyfill';
 
 import {NavigationButton} from "../Navigation/Navigation"
-import FavouriteTasks from "../FavoriteTasks/FavouriteTasks";
-import {EnterTaskPage} from "../EnterTaskPage/EnterTaskPage";
+import FavouritePage from "../../pages/FavoritePage/FavouritePage";
+import {MainPage} from "../../pages/MainPage/MainPage";
 import {EnterField} from "../EnterField/EnterField";
 import {PaginationButton} from "../../forms/button/PaginationButton"
 import CrudName from "../CrudName/CrudName";
 
 import './App.scss';
-import {Route, Link, BrowserRouter} from 'react-router-dom';
-import {Switch} from "react-router";
+import {Router, Route, Switch, BrowserRouter} from 'react-router-dom';
+// import {Route, Link, BrowserRouter, Router} from 'react-router-dom';
+// import {Switch} from "react-router";
+import {routes} from "../../utils/routes";
 
 function App() {
     return (
@@ -28,12 +29,15 @@ function App() {
                 </header>
                 <section>
                     <Container fixed>
-                        <Route path={'/alltask'}>
-                            <EnterTaskPage/>
-                        </Route>
-                        <Route path={'/favourite-task'}>
-                            <FavouriteTasks/>
-                        </Route>
+                                {routes.map(({id, exact, path, component}) => (
+                                    <Route
+                                        key={id}
+                                        exact={exact}
+                                        id={id}
+                                        path={path}
+                                        component={component}
+                                    />
+                                ))}
                     </Container>
                 </section>
             </div>

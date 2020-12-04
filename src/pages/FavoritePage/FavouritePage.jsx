@@ -2,7 +2,7 @@ import React, {useState,useEffect} from "react";
 import axios from 'axios';
 import Button from "@material-ui/core/Button";
 
-export default function FavouriteTasks () {
+export default function FavouritePage () {
     const [data, setData] = useState([] );
 
     useEffect( () => {

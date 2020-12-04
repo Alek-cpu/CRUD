@@ -15,64 +15,18 @@ import CloseIcon from "@material-ui/icons/Close";
 import SpaceStar from "../../img/star_outline-24px.svg";
 import SpaceHalfStar from "../../img/star_half-24px.svg";
 import SpaceFullStar from "../../img/star-24px.svg";
-import {EnterField} from "../EnterField/EnterField";
+import {EnterField} from "../../components/EnterField/EnterField";
 import {tasksAPI} from "../../utils/api";
+import {AnimateRotate} from '../../styled/styledMainPage';
+import {theme} from '../../themes/themes'
+import {useStylesMainPage} from '../../hooks/useStylesMainPage'
 
-const useStyles = makeStyles({
-    root: {
-        marginTop: '15px'
-    },
-    line: {
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    column: {
-        display: 'flex',
-        flexDirection: 'column-reverse',
-        cursor: 'pointer',
-        fontSize: '2rem',
-    },
-
-    inputBorder: {
-        border: '1px solid none',
-        color: 'white',
-    },
-    timeMessage: {
-        fontSize: '12px',
-        color: '#696969',
-        width: '110px',
-        padding: '0 5px',
-    },
-
-    timeLocation: {
-        display: 'flex',
-        width: 'inherit',
-        alignItems: 'center',
-    }
-});
-
-const theme = createMuiTheme({
-    palette: {
-        secondary: {
-            main: '#61DAFB',
-        },
-    },
-});
-
-const AnimateRotate = styled(CloseIcon)`
-  &:hover {
-    transition: 0.6s ease-out;
-    transform: rotate(360deg);
-  }
-`;
-
-export const EnterTaskPage = () => {
+export const MainPage = () => {
 
     let dispatch = useDispatch();
     let todos = useSelector(state => state);
 
-    const classes = useStyles();
+    const classes = useStylesMainPage();
 
     const [checked, setChecked] = useState([1]);
     const [star, setStar] = useState([SpaceStar]);
@@ -105,14 +59,14 @@ export const EnterTaskPage = () => {
     return (
         <>
             <ThemeProvider theme={theme}>
-                <EnterField/>
+                <EnterField />
                 <List className={classes.root}>
-                    {data.map((value) => {
-                        const labelId = `checkbox-list-label-${value}`;
+                    {data.map(({id, time, text}) => {
+                        // const labelId = `checkbox-list-label-${value}`;
                         return (
                             <>
-                                <ListItem key={value.id} role={undefined} dense button
-                                          onClick={handleToggle(value.id)}>
+                                <ListItem key={id} role={undefined} dense button
+                                          onClick={handleToggle(id)}>
                                     <ListItemIcon>
                                         <Checkbox
                                             edge="start"
@@ -121,21 +75,21 @@ export const EnterTaskPage = () => {
                                         />
                                     </ListItemIcon>
                                     <Input
-                                        id={value.id}
+                                        id={id}
                                         className={classes.inputBorder}
-                                        primary={`${value.text}`}
-                                        defaultValue={`${value.text ? value.text : 'нет значения'}`}
+                                        primary={`${text}`}
+                                        defaultValue={`${text ? text : 'нет значения'}`}
                                         inputProps={{'aria-label': 'description'}}
                                         fullWidth
                                     />
                                     {/*<ListItemSecondaryAction className={classes.timeLocation}>*/}
-                                    <div className={classes.timeMessage}>{value.time}</div>
+                                    <div className={classes.timeMessage}>{time}</div>
                                     <img
                                         src={star}
                                         onMouseOver={() => setStar([SpaceHalfStar])}
                                         onClick={() => setStar([SpaceFullStar])}
                                     />
-                                    <Button onClick={() => dispatch(deletedToDO(setDeleted([value.id])))}>
+                                    <Button onClick={() => dispatch(deletedToDO(setDeleted([id])))}>
                                         <AnimateRotate color={"error"}/>
                                     </Button>
                                     {/*</ListItemSecondaryAction>*/}

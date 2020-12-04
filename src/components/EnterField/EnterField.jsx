@@ -11,60 +11,9 @@ import {TextField} from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import {SortButton} from "../../forms/SortButton/SortButton";
 import {tasksAPI} from "../../utils/api";
-
-const useStyles = makeStyles({
-    button: {
-        background: 'inherit',
-        border: '2px solid #61DAFB',
-        borderRadius: 3,
-        color: '#61DAFB',
-        height: '100%',
-        padding: '0 30px',
-    },
-    display_line: {
-        marginTop: '30px',
-        display: 'grid',
-        gridTemplateColumns: '5fr 1fr',
-        gridGap: '10px',
-        width: '100%',
-        alignItems: 'center',
-    }
-});
-
-const StyledTextField = styled(TextField)`
-  label {
-    color: #61DAFB;
-  }
-
-  label:focus {
-    color: #61DAFB;
-  }
-
-  .MuiOutlinedInput-root {
-    color: #61DAFB;
-
-    fieldset {
-      border-color: #61DAFB;
-      color: #61DAFB;
-    }
-
-    &:hover fieldset {
-      border-color: yellow;
-      color: #61DAFB;
-    }
-
-    &.Mui-focused fieldset {
-      border-color: #61DAFB;
-      color: #61DAFB;
-    }
-  }
-`;
-
-const AnimationButton = styled(Button)`
-  &:active {
-    transition: .2s ease-out;
-    transform: scale(.9);
-`;
+import {useStylesEnterField} from "../../hooks/useStylesEnterField";
+import {StyledTextField} from "../../styled/StyledTextField";
+import {AnimationButton} from "../../styled/AnimationButton";
 
 export const EnterField = () => {
 
@@ -77,7 +26,7 @@ export const EnterField = () => {
     });
     let todos = useSelector(state => state)
     let dispatch = useDispatch();
-    const classes = useStyles();
+    const classes = useStylesEnterField();
 
 
     useEffect(() => {
@@ -97,7 +46,7 @@ export const EnterField = () => {
                         dispatch(addToDo(
                             setTask(
                                 {
-                                    // id: uuid(),
+                                    id: uuid(),
                                     text: name.split(' ').filter(e => e.trim().length).join(' '),
                                     time: `${format(new Date(), 'yyyy-MM-dd')}`,
                                     favorite: false
