@@ -12,9 +12,9 @@ import {deletedToDO} from "../../store/users/actions";
 
 import Button from "@material-ui/core/Button";
 import CloseIcon from "@material-ui/icons/Close";
-import SpaceStar from "../../img/star_outline-24px.svg";
-import SpaceHalfStar from "../../img/star_half-24px.svg";
-import SpaceFullStar from "../../img/star-24px.svg";
+import SpaceStar from "../../img/star-outline.svg";
+import SpaceHalfStar from "../../img/star-half.svg";
+import SpaceFullStar from "../../img/star.svg";
 import {EnterField} from "../../components/EnterField/EnterField";
 import {tasksAPI} from "../../utils/api";
 import {AnimateRotate} from '../../styled/styledMainPage';

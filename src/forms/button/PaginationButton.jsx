@@ -3,15 +3,15 @@ import styled from "styled-components";
 import React from "react";
 import {NavLink, Link} from "react-router-dom";
 import {Linked} from "../../styled/styledLinked";
-import {AnimationButtonOther} from "../../styled/AnimationButtonOther";
+import {StyledAnimationButtonOther} from "../../styled/styledAnimationButtonOther";
 
 export const PaginationButton = (props) => {
     return (
         <Linked to={props.path}>
-            <AnimationButtonOther variant="contained" color={props.color}>
+            <StyledAnimationButtonOther variant="contained" color={props.color}>
                 <img src={props.icon} />
                 <span>{props.textField}</span>
-            </AnimationButtonOther>
+            </StyledAnimationButtonOther>
         </Linked>
     );
 }

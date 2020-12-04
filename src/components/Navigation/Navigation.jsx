@@ -1,13 +1,13 @@
 import {PaginationButton} from "../../forms/button/PaginationButton";
 import styled from "styled-components";
-import TasksIcon from "../../img/menu_book-24px.svg";
+import TasksIcon from "../../img/menu-book.svg";
 import FavoriteIcon from "../../img/star-white.svg";
 import {Button} from "@material-ui/core";
-import {NavigationButtonBackground} from "../../styled/NavigationButtonBackground";
+import {StyledNavigationButtonBackground} from "../../styled/styledNavigationButtonBackground";
 
 export const NavigationButton = () => {
     return(
-        <NavigationButtonBackground>
+        <StyledNavigationButtonBackground>
             <PaginationButton
                 color={"primary"}
                 textField={"Главная"}
@@ -20,6 +20,6 @@ export const NavigationButton = () => {
                 icon={FavoriteIcon}
                 path={'/favourite-task'}
             />
-        </NavigationButtonBackground>
+        </StyledNavigationButtonBackground>
     );
 }

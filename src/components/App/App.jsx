@@ -16,7 +16,7 @@ import {Router, Route, Switch, BrowserRouter} from 'react-router-dom';
 // import {Switch} from "react-router";
 import {routes} from "../../utils/routes";
 
-function App() {
+export const App = () => {
     return (
         <BrowserRouter>
             <div className="App">
@@ -29,20 +29,18 @@ function App() {
                 </header>
                 <section>
                     <Container fixed>
-                                {routes.map(({id, exact, path, component}) => (
-                                    <Route
-                                        key={id}
-                                        exact={exact}
-                                        id={id}
-                                        path={path}
-                                        component={component}
-                                    />
-                                ))}
+                        {routes.map(({id, exact, path, component}) => (
+                            <Route
+                                key={id}
+                                exact={exact}
+                                id={id}
+                                path={path}
+                                component={component}
+                            />
+                        ))}
                     </Container>
                 </section>
             </div>
         </BrowserRouter>
-    );
+    )
 }
-
-export default App;
