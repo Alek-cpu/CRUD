@@ -20,7 +20,6 @@ export const App = () => {
     return (
         <BrowserRouter>
             <div className="App">
-
                 <header className="App-header">
                     <Container fixed>
                         <NavigationButton/>
@@ -29,15 +28,19 @@ export const App = () => {
                 </header>
                 <section>
                     <Container fixed>
-                        {routes.map(({id, exact, path, component}) => (
-                            <Route
-                                key={id}
-                                exact={exact}
-                                id={id}
-                                path={path}
-                                component={component}
-                            />
-                        ))}
+                        {/*<Router>*/}
+                            <Switch>
+                                {routes.map(({id, exact, path, component}) => (
+                                    <Route
+                                        key={id}
+                                        exact={exact}
+                                        id={id}
+                                        path={path}
+                                        component={component}
+                                    />
+                                ))}
+                            </Switch>
+                        {/*</Router>*/}
                     </Container>
                 </section>
             </div>

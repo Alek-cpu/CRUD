@@ -12,8 +12,8 @@ import Button from "@material-ui/core/Button";
 import {SortButton} from "../../forms/SortButton/SortButton";
 import {tasksAPI} from "../../utils/api";
 import {useStylesEnterField} from "../../hooks/useStylesEnterField";
-import {StyledTextField} from "../../styled/styledTextField";
-import {StyledAnimationButton} from "../../styled/styledAnimationButton";
+import {StyledTextField} from "../../styled/TextField";
+import {AnimationButton} from "../../styled/AnimationButton";
 
 export const EnterField = () => {
 
@@ -65,7 +65,7 @@ export const EnterField = () => {
                     onChange={(e) => setName(e.target.value)}
                     value={name}
                 />
-                <StyledAnimationButton
+                <AnimationButton
                     className={classes.button}
                     onClick={() => {
                         if (name && name.trim()) {
@@ -84,7 +84,7 @@ export const EnterField = () => {
                     }}
                 >
                     ADD
-                </StyledAnimationButton>
+                </AnimationButton>
             </form>
         </>
     );

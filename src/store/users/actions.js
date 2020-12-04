@@ -3,17 +3,20 @@ import {
     ADD_TODO,
     UPDATE_TODO,
     DELETE_TODO,
-    FETCH_TODO
+    GET_TODO
 } from './types';
+import {getTaski} from "./request";
 
-export const fetch = (todo) => async dispatch  => {
-    const response = await axios.get('http://localhost:3001/allTasks');
+export const loadUsersData = () => (dispatch) => getTaski()
+    .then((result) => dispatch({
+        type: GET_TODO,
+        params: result.data,
+    }));
 
-    dispatch({
-        type: FETCH_TODO,
-        payload: response.data
-    });
-}
+// export const loadUsersData = (todo) => ({
+//     type: GET_TODO,
+//     payload: todo.data,
+// });
 
 export const addToDo = (todo) => ({
     type: ADD_TODO,

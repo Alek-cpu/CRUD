@@ -17,7 +17,7 @@ import SpaceHalfStar from "../../img/star-half.svg";
 import SpaceFullStar from "../../img/star.svg";
 import {EnterField} from "../../components/EnterField/EnterField";
 import {tasksAPI} from "../../utils/api";
-import {AnimateRotate} from '../../styled/styledMainPage';
+import {AnimateRotate} from '../../styled/MainPage';
 import {theme} from '../../themes/themes'
 import {useStylesMainPage} from '../../hooks/useStylesMainPage'
 

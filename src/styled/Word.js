@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const styledWord = styled.div`
+export const Word = styled.div`
     &:hover {
        span {
         color: ${props => (props.red ? "red" : props.blue ? "blue" : props.yellow ? "yellow" : "green")};
