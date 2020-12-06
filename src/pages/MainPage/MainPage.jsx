@@ -7,24 +7,26 @@ import {
 } from "@material-ui/core";
 import {useDispatch, useSelector} from "react-redux";
 
-import {fetch} from "../../store/users/actions";
-import {deletedToDO} from "../../store/users/actions";
+import {deletedToDO, loadUsersData} from "../../store/users/actions";
+import {favoriteToDO} from "../../store/users/actions";
 
 import Button from "@material-ui/core/Button";
-import CloseIcon from "@material-ui/icons/Close";
-import SpaceStar from "../../img/star-outline.svg";
-import SpaceHalfStar from "../../img/star-half.svg";
-import SpaceFullStar from "../../img/star.svg";
 import {EnterField} from "../../components/EnterField/EnterField";
 import {tasksAPI} from "../../utils/api";
 import {AnimateRotate} from '../../styled/MainPage';
 import {theme} from '../../themes/themes'
 import {useStylesMainPage} from '../../hooks/useStylesMainPage'
 
+import CloseIcon from "@material-ui/icons/Close";
+import SpaceStar from "../../img/star-outline.svg";
+import SpaceHalfStar from "../../img/star-half.svg";
+import SpaceFullStar from "../../img/star.svg";
+
 export const MainPage = () => {
 
     let dispatch = useDispatch();
-    let todos = useSelector(state => state);
+
+    let todos = useSelector(state => state.tasks);
 
     const classes = useStylesMainPage();
 
@@ -32,6 +34,7 @@ export const MainPage = () => {
     const [star, setStar] = useState([SpaceStar]);
     const [data, setData] = useState([]);
     const [deleted, setDeleted] = useState([]);
+    const [toggle, setToggle] = useState({favorite: false})
 
     useEffect(() => {
         tasksAPI.getTasks().then(({data}) => {
@@ -40,8 +43,17 @@ export const MainPage = () => {
     }, []);
 
     useEffect(() => {
+        dispatch(loadUsersData());
+    }, [dispatch]);
+
+
+    useEffect(() => {
         dispatch(deletedToDO(tasksAPI.deleteTasks(deleted)))
     }, [deleted]);
+
+    useEffect(() => {
+        dispatch(favoriteToDO(tasksAPI.deleteTasks(toggle)))
+    }, [toggle]);
 
     const handleToggle = (value) => () => {
         const currentIndex = checked.indexOf(value);
@@ -56,13 +68,18 @@ export const MainPage = () => {
         setChecked(newChecked);
     };
 
+    const handleClick = () => {
+        setToggle(!toggle)
+        console.log('значение this:', toggle);
+    }
+
     return (
         <>
+            {console.log({sss: todos})}
             <ThemeProvider theme={theme}>
                 <EnterField />
                 <List className={classes.root}>
-                    {data.map(({id, time, text}) => {
-                        // const labelId = `checkbox-list-label-${value}`;
+                    {todos.map(({id, time, text, favorite}) => {
                         return (
                             <>
                                 <ListItem key={id} role={undefined} dense button
@@ -82,17 +99,22 @@ export const MainPage = () => {
                                         inputProps={{'aria-label': 'description'}}
                                         fullWidth
                                     />
-                                    {/*<ListItemSecondaryAction className={classes.timeLocation}>*/}
                                     <div className={classes.timeMessage}>{time}</div>
-                                    <img
-                                        src={star}
-                                        onMouseOver={() => setStar([SpaceHalfStar])}
-                                        onClick={() => setStar([SpaceFullStar])}
-                                    />
+                                    <div key={id} onClick={() => handleClick(setToggle({favorite: toggle}))}>
+                                        {toggle ?
+                                            <img
+                                                key={id}
+                                                src={SpaceFullStar}
+                                            /> :
+                                            <img
+                                                key={id}
+                                                src={SpaceStar}
+                                            />
+                                        }
+                                    </div>
                                     <Button onClick={() => dispatch(deletedToDO(setDeleted([id])))}>
                                         <AnimateRotate color={"error"}/>
                                     </Button>
-                                    {/*</ListItemSecondaryAction>*/}
                                 </ListItem>
                             </>
                         );

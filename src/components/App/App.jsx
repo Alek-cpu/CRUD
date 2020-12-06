@@ -11,9 +11,10 @@ import {PaginationButton} from "../../forms/button/PaginationButton"
 import CrudName from "../CrudName/CrudName";
 
 import './App.scss';
-import {Router, Route, Switch, BrowserRouter} from 'react-router-dom';
-// import {Route, Link, BrowserRouter, Router} from 'react-router-dom';
-// import {Switch} from "react-router";
+import {
+    Router, Route, Switch, BrowserRouter
+} from 'react-router-dom';
+
 import {routes} from "../../utils/routes";
 
 export const App = () => {
@@ -28,7 +29,6 @@ export const App = () => {
                 </header>
                 <section>
                     <Container fixed>
-                        {/*<Router>*/}
                             <Switch>
                                 {routes.map(({id, exact, path, component}) => (
                                     <Route
@@ -40,7 +40,6 @@ export const App = () => {
                                     />
                                 ))}
                             </Switch>
-                        {/*</Router>*/}
                     </Container>
                 </section>
             </div>

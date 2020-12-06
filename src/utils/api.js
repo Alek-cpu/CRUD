@@ -1,4 +1,5 @@
 import axios from "axios";
+import {favoriteToDO} from "../store/users/actions";
 
 const instance = axios.create({
     baseURL: "http://localhost:3001/",
@@ -22,4 +23,7 @@ export const tasksAPI = {
     deleteTasks(deleted) {
         return (instance.delete(`allTasks/${deleted}`));
     }
+    // favoriteToDO(toggle) {
+    //     return (instance.patch(`allTasks/${toggle}`));
+    // }
 }
