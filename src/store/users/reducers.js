@@ -1,8 +1,6 @@
 import {
     ADD_TODO, DELETE_TODO, UPDATE_TODO, GET_TODO, FAVORITE_TODO
 } from './types';
-// import { todos } from "./states";
-
 
 const initialState = {
     tasks: [],
@@ -14,15 +12,16 @@ export const reducer = (state = initialState, action) => {
         {
             return { ...state, tasks: action.params };
         }
-        // case ADD_TODO: {
-        //     return [...state, action.payload]; ПЕРЕДЕЛАТЬ С МИДЛВАРАМИ
-        // }
-        // case DELETE_TODO:
-        //     return [...state].filter((item, index) => index !== action.payload);
-        // case FAVORITE_TODO:
-        //     return [...state].filter((item, index) => index !== action.payload);
-        // case UPDATE_TODO:
-        //     return state;
+        case ADD_TODO:
+            return {
+                ...state,
+                tasks: [...state.tasks, action.params],
+            };
+        case DELETE_TODO:
+            return {
+                ...state,
+                tasks: state.tasks.filter((item) => item.id !== action.id),
+            };
     }
     return state;
 }

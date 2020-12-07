@@ -7,12 +7,10 @@ import {
 } from "@material-ui/core";
 import {useDispatch, useSelector} from "react-redux";
 
-import {deletedToDO, loadUsersData} from "../../store/users/actions";
-import {favoriteToDO} from "../../store/users/actions";
+import {addNewTask, deletedTask, loadUsersData} from "../../store/users/actions";
 
 import Button from "@material-ui/core/Button";
 import {EnterField} from "../../components/EnterField/EnterField";
-import {tasksAPI} from "../../utils/api";
 import {AnimateRotate} from '../../styled/MainPage';
 import {theme} from '../../themes/themes'
 import {useStylesMainPage} from '../../hooks/useStylesMainPage'
@@ -33,27 +31,15 @@ export const MainPage = () => {
     const [checked, setChecked] = useState([1]);
     const [star, setStar] = useState([SpaceStar]);
     const [data, setData] = useState([]);
-    const [deleted, setDeleted] = useState([]);
-    const [toggle, setToggle] = useState({favorite: false})
-
-    useEffect(() => {
-        tasksAPI.getTasks().then(({data}) => {
-                setData(data);
-            })
-    }, []);
+    const [deletedId, setDeletedId] = useState([]);
 
     useEffect(() => {
         dispatch(loadUsersData());
     }, [dispatch]);
 
-
     useEffect(() => {
-        dispatch(deletedToDO(tasksAPI.deleteTasks(deleted)))
-    }, [deleted]);
-
-    useEffect(() => {
-        dispatch(favoriteToDO(tasksAPI.deleteTasks(toggle)))
-    }, [toggle]);
+        dispatch(deletedTask(deletedId));
+    }, [deletedId]);
 
     const handleToggle = (value) => () => {
         const currentIndex = checked.indexOf(value);
@@ -68,16 +54,16 @@ export const MainPage = () => {
         setChecked(newChecked);
     };
 
-    const handleClick = () => {
-        setToggle(!toggle)
-        console.log('значение this:', toggle);
-    }
+    // const handleClick = () => {
+    //     setToggle(!toggle)
+    //     console.log('значение this:', toggle);
+    // }
 
     return (
         <>
             {console.log({sss: todos})}
             <ThemeProvider theme={theme}>
-                <EnterField />
+                <EnterField/>
                 <List className={classes.root}>
                     {todos.map(({id, time, text, favorite}) => {
                         return (
@@ -100,19 +86,13 @@ export const MainPage = () => {
                                         fullWidth
                                     />
                                     <div className={classes.timeMessage}>{time}</div>
-                                    <div key={id} onClick={() => handleClick(setToggle({favorite: toggle}))}>
-                                        {toggle ?
-                                            <img
-                                                key={id}
-                                                src={SpaceFullStar}
-                                            /> :
-                                            <img
-                                                key={id}
-                                                src={SpaceStar}
-                                            />
-                                        }
+                                    <div key={id}>
+                                        <img
+                                            key={id}
+                                            src={SpaceFullStar}
+                                        />
                                     </div>
-                                    <Button onClick={() => dispatch(deletedToDO(setDeleted([id])))}>
+                                    <Button onClick={() => setDeletedId(id)}>
                                         <AnimateRotate color={"error"}/>
                                     </Button>
                                 </ListItem>

@@ -1,16 +1,15 @@
 import React, {useState, useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {v1 as uuid} from "uuid";
-import { format, compareAsc } from 'date-fns';
+import {format, compareAsc} from 'date-fns';
 import styled from "styled-components";
 
-import {addToDo} from "../../store/users/actions";
+import {addNewTask, loadUsersData} from "../../store/users/actions";
 
 import {makeStyles} from "@material-ui/core/styles";
 import {TextField} from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import {SortButton} from "../../forms/SortButton/SortButton";
-import {tasksAPI} from "../../utils/api";
 import {useStylesEnterField} from "../../hooks/useStylesEnterField";
 import {StyledTextField} from "../../styled/TextField";
 import {AnimationButton} from "../../styled/AnimationButton";
@@ -18,20 +17,14 @@ import {AnimationButton} from "../../styled/AnimationButton";
 export const EnterField = () => {
 
     const [name, setName] = useState();
-    const [task, setTask] = useState({
-        id: '',
-        text: '',
-        time: '',
-        favorite: false
-    });
+    const [task, setTask] = useState({});
     let todos = useSelector(state => state)
     let dispatch = useDispatch();
     const classes = useStylesEnterField();
 
-
     useEffect(() => {
-        if (task.text !== "") {
-            tasksAPI.postTasks(task)
+        if (task && task.text) {
+            dispatch(addNewTask(task));
         }
     }, [task]);
 
@@ -41,18 +34,14 @@ export const EnterField = () => {
             <form
                 onSubmit={(e) => {
                     e.preventDefault()
-                    console.log(JSON.stringify(task))
-                    if (name && name.trim()) {
-                        dispatch(addToDo(
-                            setTask(
-                                {
-                                    id: uuid(),
-                                    text: name.split(' ').filter(e => e.trim().length).join(' '),
-                                    time: `${format(new Date(), 'yyyy-MM-dd')}`,
-                                    favorite: false
-                                }
-                            )
-                        ));
+                    if (name  && name.trim()) {
+                        setTask(
+                            {
+                                text: name.split(' ').filter(e => e.trim().length).join(' '),
+                                time: `${format(new Date(), 'yyyy-MM-dd')}`,
+                                favorite: false
+                            }
+                        )
                         setName('');
                     }
                 }}
@@ -69,16 +58,13 @@ export const EnterField = () => {
                     className={classes.button}
                     onClick={() => {
                         if (name && name.trim()) {
-                            dispatch(addToDo(
-                                setTask(
-                                    {
-                                        // id: uuid(),
-                                        text: name.split(' ').filter(e => e.trim().length).join(' '),
-                                        time: `${format(new Date(), 'yyyy-MM-dd')}`,
-                                        favorite: false
-                                    }
-                                )
-                            ));
+                            setTask(
+                                {
+                                    text: name.split(' ').filter(e => e.trim().length).join(' '),
+                                    time: `${format(new Date(), 'yyyy-MM-dd')}`,
+                                    favorite: false
+                                }
+                            )
                             setName('');
                         }
                     }}
