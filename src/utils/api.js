@@ -16,3 +16,15 @@ export function deleted(deleted) {
 export function getTasks() {
     return (instance.get(`allTasks/`));
 }
+
+export function getTasksFavourite() {
+    return (instance.get(`allTasks/?favorite=true`));
+}
+
+export function getTasksCompleted() {
+    return (instance.get(`allTasks/?completed=true`));
+}
+
+export function patchTask(id, editTask) {
+    return axios.patch(`allTasks/${id}`, editTask);
+}

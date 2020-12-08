@@ -1,52 +1,46 @@
 {
   "allTasks": [
     {
-      "text": "ghbdtn",
+      "text": "Привет, ToDoshnik, сегодня я наладил логику отправки задач",
       "time": "2020-12-07",
       "favorite": false,
-      "id": 1
+      "id": 1,
+      "completed": true
     },
     {
-      "text": "ghbdtn nkng;ren",
-      "time": "2020-12-07",
-      "favorite": false,
-      "id": 2
+      "text": "tytyty",
+      "time": "2020-12-08",
+      "favorite": true,
+      "id": 3,
+      "completed": false
     },
     {
-      "text": "dkfnkdnv",
-      "time": "2020-12-07",
+      "text": "dlfkmvdfklv",
+      "time": "2020-12-08",
       "favorite": false,
-      "id": 3
+      "id": 4,
+      "completed": true
     },
     {
-      "text": "jnkrjntjvr rtkjnvjkrntv rt",
-      "time": "2020-12-07",
-      "favorite": false,
-      "id": 4
+      "text": "sdmcklsmdc",
+      "time": "2020-12-08",
+      "favorite": true,
+      "id": 5,
+      "completed": false
     },
     {
-      "text": "grt jgnrjtk njn j j k kjn nnkjjn nkjnjknjne erjfknejrnfekrjf ekrnfejrnfkejrnf kejrnfkjenrf ekrjnfkejrnfekjrnfekjrnfekrjnf",
-      "time": "2020-12-07",
+      "text": "dlkfmvldfkmv",
+      "time": "2020-12-08",
       "favorite": false,
-      "id": 5
+      "id": 6,
+      "completed": true
     },
     {
-      "text": "dfvjhdbvf",
-      "time": "2020-12-07",
+      "text": "asdassd",
+      "time": "2020-12-08",
       "favorite": false,
-      "id": 6
-    },
-    {
-      "text": "dnfvndfv",
-      "time": "2020-12-07",
-      "favorite": false,
-      "id": 7
-    },
-    {
-      "text": "akdfnvadkjfnv jdfnvkjdfnjvk kdjfnvjkdfnv",
-      "time": "2020-12-07",
-      "favorite": false,
-      "id": 8
+      "id": 7,
+      "completed": true
     }
   ]
 }

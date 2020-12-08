@@ -1,5 +1,5 @@
 import {
-    ADD_TODO, DELETE_TODO, UPDATE_TODO, GET_TODO, FAVORITE_TODO
+    ADD_TODO, DELETE_TODO, UPDATE_TODO, GET_TODO, ISFAVORITE_TODO
 } from './types';
 
 const initialState = {
@@ -18,6 +18,11 @@ export const reducer = (state = initialState, action) => {
                 tasks: [...state.tasks, action.params],
             };
         case DELETE_TODO:
+            return {
+                ...state,
+                tasks: state.tasks.filter((item) => item.id !== action.id),
+            };
+        case ISFAVORITE_TODO:
             return {
                 ...state,
                 tasks: state.tasks.filter((item) => item.id !== action.id),
