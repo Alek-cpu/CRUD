@@ -7,7 +7,7 @@ import {
 } from "@material-ui/core";
 import {useDispatch, useSelector} from "react-redux";
 
-import {addNewTask, deletedTask, loadUsersData} from "../../store/users/actions";
+import {addNewTask, deletedTask, loadUsersData, markToFavorite} from "../../store/users/actions";
 
 import Button from "@material-ui/core/Button";
 import {EnterField} from "../../components/EnterField/EnterField";
@@ -19,6 +19,7 @@ import CloseIcon from "@material-ui/icons/Close";
 import SpaceStar from "../../img/star-outline.svg";
 import SpaceHalfStar from "../../img/star-half.svg";
 import SpaceFullStar from "../../img/star.svg";
+import {index} from "../../store";
 
 export const MainPage = () => {
 
@@ -30,9 +31,8 @@ export const MainPage = () => {
 
     const [checked, setChecked] = useState([1]);
     const [star, setStar] = useState([SpaceStar]);
-    const [data, setData] = useState([]);
+
     const [deletedId, setDeletedId] = useState([]);
-    const [toggle, setToggle] = useState(data.favorite);
 
     useEffect(() => {
         dispatch(loadUsersData());
@@ -55,30 +55,42 @@ export const MainPage = () => {
         setChecked(newChecked);
     };
 
-    const handleClick = (id) => {
-           setToggle(!toggle)
-           console.log('значение this:', toggle, id);
+    function maketoFavorite(id, favorite) {
+        const selectedTask = todos.find((item) => item.id === id);
+        selectedTask.favorite = !favorite;
+        dispatch(markToFavorite(selectedTask));
     }
+
+    const filteredTasks = todos.filter(({status}) => (!status))
+        .sort((a, b) => b.favorite - a.favorite);
 
     return (
         <>
-            {console.log({sss: todos})}
             <ThemeProvider theme={theme}>
                 <EnterField/>
                 <List className={classes.root}>
-                    {todos.map(({id, time, text, favorite}) => {
+                    {filteredTasks.map(({id, time, text, favorite, completed}) => {
                         return (
-                            <>
-                                <ListItem key={id} role={undefined} dense button
-                                          onClick={handleToggle(id)}>
-                                    <ListItemIcon>
-                                        <Checkbox
-                                            edge="start"
-                                            tabIndex={-1}
-                                            disableRipple
-                                        />
-                                    </ListItemIcon>
-                                    <Input
+                            <ListItem key={id} role={undefined} dense button
+                                      onClick={handleToggle(id)}>
+                                <ListItemIcon>
+                                    {
+                                        !completed
+                                            ? <Checkbox
+                                                edge="start"
+                                                tabIndex={-1}
+                                                disableRipple
+                                            />
+                                            : <Checkbox
+                                                edge="start"
+                                                tabIndex={-1}
+                                                disableRipple
+                                                checked={checked}
+                                            />
+                                    }
+                                </ListItemIcon>
+                                {!completed
+                                    ? <Input
                                         id={id}
                                         className={classes.inputBorder}
                                         primary={`${text}`}
@@ -86,29 +98,25 @@ export const MainPage = () => {
                                         inputProps={{'aria-label': 'description'}}
                                         fullWidth
                                     />
-                                    <div className={classes.timeMessage}>{time}</div>
-                                    <div
-                                        key={id}
-
-                                    >
-                                        {favorite ?
-                                            <img
-                                            src={SpaceFullStar}
-                                            id={id}
-                                            onClick={() => handleClick(id)}
-                                            /> :
-                                            <img
-                                                src={SpaceStar}
-                                                id={id}
-                                                onClick={() => handleClick(id)}
-                                            />
-                                        }
-                                    </div>
-                                    <Button onClick={() => setDeletedId(id)}>
-                                        <AnimateRotate color={"error"}/>
-                                    </Button>
-                                </ListItem>
-                            </>
+                                    : <Input
+                                        disabled
+                                        id={id}
+                                        className={classes.inputBorder}
+                                        primary={`${text}`}
+                                        defaultValue={`${text ? text : 'нет значения'}`}
+                                        inputProps={{'aria-label': 'description'}}
+                                        fullWidth
+                                    />
+                                }
+                                <div className={classes.timeMessage}>{time}</div>
+                                <img
+                                    src={favorite ? SpaceFullStar : SpaceStar}
+                                    onClick={() => maketoFavorite(id, favorite)}
+                                />
+                                <Button onClick={() => setDeletedId(id)}>
+                                    <AnimateRotate color={"error"}/>
+                                </Button>
+                            </ListItem>
                         );
                     })}
                 </List>

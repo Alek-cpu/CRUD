@@ -24,7 +24,6 @@ export function getTasksFavourite() {
 export function getTasksCompleted() {
     return (instance.get(`allTasks/?completed=true`));
 }
-
 export function patchTask(id, editTask) {
-    return axios.patch(`allTasks/${id}`, editTask);
+    return instance.patch(`allTasks/${id}`, editTask);
 }

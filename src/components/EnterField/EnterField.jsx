@@ -17,7 +17,13 @@ import {AnimationButton} from "../../styled/AnimationButton";
 export const EnterField = () => {
 
     const [name, setName] = useState();
-    const [task, setTask] = useState({});
+    const [task, setTask] = useState({
+        text: "",
+        time: "",
+        favorite: false,
+        id: null,
+        completed: false
+    });
     let todos = useSelector(state => state)
     let dispatch = useDispatch();
     const classes = useStylesEnterField();

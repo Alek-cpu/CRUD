@@ -23,7 +23,7 @@ export default function FavouritePage () {
     const [star, setStar] = useState([SpaceStar]);
     const [data, setData] = useState([]);
     const [deletedId, setDeletedId] = useState([]);
-    const [toggle, setToggle] = useState(data.favorite);
+    const [toggle, setToggle] = useState();
 
     useEffect(() => {
         dispatch(loadFavouriteData());
@@ -46,18 +46,12 @@ export default function FavouritePage () {
         setChecked(newChecked);
     };
 
-    const handleClick = (id) => {
-        setToggle(!toggle)
-        console.log('значение this:', toggle, id);
-    }
-
     return (
         <>
             {console.log({sss: todos})}
             <ThemeProvider theme={theme}>
-                <EnterField/>
                 <List className={classes.root}>
-                    {todos.map(({id, time, text, favorite}) => {
+                    {todos.map(({id, time, text, favorite, completed}) => {
                         return (
                             <>
                                 <ListItem key={id} role={undefined} dense button
@@ -72,7 +66,6 @@ export default function FavouritePage () {
                                     <Input
                                         id={id}
                                         className={classes.inputBorder}
-                                        primary={`${text}`}
                                         defaultValue={`${text ? text : 'нет значения'}`}
                                         inputProps={{'aria-label': 'description'}}
                                         fullWidth
@@ -86,12 +79,10 @@ export default function FavouritePage () {
                                             <img
                                                 src={SpaceFullStar}
                                                 id={id}
-                                                onClick={() => handleClick(id)}
                                             /> :
                                             <img
                                                 src={SpaceStar}
                                                 id={id}
-                                                onClick={() => handleClick(id)}
                                             />
                                         }
                                     </div>

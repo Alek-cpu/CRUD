@@ -1,46 +1,30 @@
 {
   "allTasks": [
     {
-      "text": "Привет, ToDoshnik, сегодня я наладил логику отправки задач",
-      "time": "2020-12-07",
-      "favorite": false,
-      "id": 1,
-      "completed": true
-    },
-    {
-      "text": "tytyty",
+      "text": "Добавить функционал обновления информации, сортировка, каталог",
       "time": "2020-12-08",
       "favorite": true,
-      "id": 3,
+      "id": 9,
       "completed": false
     },
     {
-      "text": "dlfkmvdfklv",
-      "time": "2020-12-08",
-      "favorite": false,
-      "id": 4,
-      "completed": true
-    },
-    {
-      "text": "sdmcklsmdc",
-      "time": "2020-12-08",
+      "text": "ну ЗДрасьте",
+      "time": "2020-12-09",
       "favorite": true,
-      "id": 5,
+      "id": 10,
       "completed": false
     },
     {
-      "text": "dlkfmvldfkmv",
-      "time": "2020-12-08",
+      "text": "Добавил функционал по выбору селекта",
+      "time": "2020-12-09",
       "favorite": false,
-      "id": 6,
-      "completed": true
+      "id": 11
     },
     {
-      "text": "asdassd",
-      "time": "2020-12-08",
+      "text": "олтваотмлвоатм",
+      "time": "2020-12-09",
       "favorite": false,
-      "id": 7,
-      "completed": true
+      "id": 12
     }
   ]
 }

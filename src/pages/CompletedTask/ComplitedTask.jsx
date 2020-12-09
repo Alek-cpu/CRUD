@@ -23,7 +23,7 @@ export default function ComplitedTask () {
     const [star, setStar] = useState([SpaceStar]);
     const [data, setData] = useState([]);
     const [deletedId, setDeletedId] = useState([]);
-    const [toggle, setToggle] = useState(data.favorite);
+    // const [toggle, setToggle] = useState(data.favorite);
 
     useEffect(() => {
         dispatch(loadCompletedData());
@@ -45,11 +45,6 @@ export default function ComplitedTask () {
 
         setChecked(newChecked);
     };
-
-    const handleClick = (id) => {
-        setToggle(!toggle)
-        console.log('значение this:', toggle, id);
-    }
 
     return (
         <>
@@ -86,12 +81,10 @@ export default function ComplitedTask () {
                                             <img
                                                 src={SpaceFullStar}
                                                 id={id}
-                                                onClick={() => handleClick(id)}
                                             /> :
                                             <img
                                                 src={SpaceStar}
                                                 id={id}
-                                                onClick={() => handleClick(id)}
                                             />
                                         }
                                     </div>

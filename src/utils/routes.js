@@ -17,7 +17,7 @@ export const routes = [
     },
     {
         id: 4,
-        path: '/complited-task',
+        path: '/complete-task',
         component: ComplitedTask,
     },
     {

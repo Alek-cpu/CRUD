@@ -36,9 +36,9 @@ export const deletedTask = (id) => (dispatch) => deleted(id)
     .then((result) => dispatch({
         type: DELETE_TODO,
         id
-    }));
+    }));//Объявить объект полностью и передавать его
 
-export const isFavoriteTask = (element) => (dispatch) => patchTask(element.id, element)
+export const markToFavorite = (element) => (dispatch) => patchTask(element.id, element)
     .then(() => dispatch({
         type: ISFAVORITE_TODO,
         params: element,

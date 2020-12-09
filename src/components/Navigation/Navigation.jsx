@@ -25,7 +25,7 @@ export const NavigationButton = () => {
                 color={"primary"}
                 textField={"Completed"}
                 icon={CompletedIcon}
-                path={'/favourite-task'}
+                path={'/complete-task'}
             />
         </NavigationButtonBackground>
     );
