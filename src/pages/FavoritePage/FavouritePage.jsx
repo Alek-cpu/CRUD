@@ -64,7 +64,7 @@ export default function FavouritePage() {
                 <List className={classes.root}>
                     {todos.map(({id, time, text, favorite, completed}) => {
                         return (
-                            favorite &&
+                            favorite && !completed &&
                             <>
                                 <ListItem key={id} role={undefined} dense button
                                           onClick={handleToggle(id)}>
