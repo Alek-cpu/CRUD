@@ -1,32 +1,35 @@
 import styled from "styled-components";
+
 import {TextField} from "@material-ui/core";
+
+const turquoise = '#61DAFB';
 
 export const StyledTextField = styled(TextField)`
         
   label {
-    color: #61DAFB;
+    color: turquoise;
   }
 
   label:focus {
-    color: #61DAFB;
+    color: turquoise;
   }
 
   .MuiOutlinedInput-root {
-    color: #61DAFB;
+    color: turquoise;
 
     fieldset {
-      border-color: #61DAFB;
-      color: #61DAFB;
+      border-color: turquoise;
+      color: turquoise;
     }
 
     &:hover fieldset {
       border-color: yellow;
-      color: #61DAFB;
+      color: turquoise;
     }
 
     &.Mui-focused fieldset {
-      border-color: #61DAFB;
-      color: #61DAFB;
+      border-color: turquoise;
+      color: turquoise;
     }
   }
 `;

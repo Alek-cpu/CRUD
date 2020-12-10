@@ -1,24 +1,24 @@
-import {MainPage} from "../pages/MainPage/MainPage";
-import FavouritePage from "../pages/FavoritePage/FavouritePage";
+import MainPage from "../pages/MainPage/MainPage";
+import FavoritePage from "../pages/FavoritePage/FavoritePage";
 import NotFound from "../pages/NotFound/NotFound";
-import CompletedTask from "../pages/CompletedTask/CompletedTask";
+import ComplitedTask from "../pages/CompletedTask/ComplitedTask";
 
 export const routes = [
     {
         id: 1,
-        path: '/',
+        path: '/home',
         component: MainPage,
         exact: true,
     },
     {
         id: 2,
         path: '/favourite-task',
-        component: FavouritePage,
+        component: FavoritePage,
     },
     {
         id: 4,
         path: '/complete-task',
-        component: CompletedTask,
+        component: ComplitedTask,
     },
     {
         id: 4,

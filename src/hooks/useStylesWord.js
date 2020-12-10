@@ -10,7 +10,7 @@ export const useStylesWord = makeStyles({
     column: {
         display: 'flex',
         flexDirection: 'column-reverse',
-        cursor: 'pointer',
         fontSize: '2rem',
+        cursor: 'pointer',
     },
 })

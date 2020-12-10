@@ -4,10 +4,10 @@ import {makeStyles, createMuiTheme} from '@material-ui/core/styles';
 import {ListItem, List, Container, Button} from '@material-ui/core';
 
 import {NavigationButton} from "../Navigation/Navigation"
-import FavouritePage from "../../pages/FavoritePage/FavouritePage";
+import FavoritePage from "../../pages/FavoritePage/FavoritePage";
 import {MainPage} from "../../pages/MainPage/MainPage";
 import {EnterField} from "../EnterField/EnterField";
-import {PaginationButton} from "../../forms/button/PaginationButton"
+import {PaginationButton} from "../../forms/PaginationButton/PaginationButton"
 import CrudName from "../CrudName/CrudName";
 
 import './App.scss';
@@ -17,32 +17,29 @@ import {
 
 import {routes} from "../../utils/routes";
 
-export const App = () => {
-    return (
-        <BrowserRouter>
-            <div className="App">
-                <header className="App-header">
-                    <Container fixed>
-                        <NavigationButton/>
-                        <CrudName/>
-                    </Container>
-                </header>
-                <section>
-                    <Container fixed>
-                            <Switch>
-                                {routes.map(({id, exact, path, component}) => (
-                                    <Route
-                                        key={id}
-                                        exact={exact}
-                                        id={id}
-                                        path={path}
-                                        component={component}
-                                    />
-                                ))}
-                            </Switch>
-                    </Container>
-                </section>
-            </div>
-        </BrowserRouter>
-    )
-}
+export const App = () =>
+    <BrowserRouter>
+        <div className="App">
+            <header className="App-header">
+                <Container fixed>
+                    <NavigationButton/>
+                    <CrudName/>
+                </Container>
+            </header>
+            <section>
+                <Container fixed>
+                    <Switch>
+                        {routes.map(({id, exact, path, component}) => (
+                            <Route
+                                key={id}
+                                exact={exact}
+                                id={id}
+                                path={path}
+                                component={component}
+                            />
+                        ))}
+                    </Switch>
+                </Container>
+            </section>
+        </div>
+    </BrowserRouter>

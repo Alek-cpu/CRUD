@@ -1,11 +1,9 @@
 import React, {useState, useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {v1 as uuid} from "uuid";
 import {format, compareAsc} from 'date-fns';
 import styled from "styled-components";
 
 import {addNewTask, loadUsersData} from "../../store/users/actions";
-
 import {makeStyles} from "@material-ui/core/styles";
 import {TextField} from "@material-ui/core";
 import Button from "@material-ui/core/Button";
@@ -14,10 +12,16 @@ import {useStylesEnterField} from "../../hooks/useStylesEnterField";
 import {StyledTextField} from "../../styled/TextField";
 import {AnimationButton} from "../../styled/AnimationButton";
 
-export const EnterField = () => {
+function EnterField() {
 
     const [name, setName] = useState();
-    const [task, setTask] = useState({});
+    const [task, setTask] = useState({
+        id: null,
+        text: '',
+        time: '',
+        favorite: false,
+        completed: false,
+    });
     let todos = useSelector(state => state)
     let dispatch = useDispatch();
     const classes = useStylesEnterField();
@@ -28,23 +32,31 @@ export const EnterField = () => {
         }
     }, [task]);
 
+    const enterTextField = () => {
+        if (name.trim()) {
+            setTask(
+                {
+                    text: name.split(' ').filter(e => e.trim().length).join(' '),
+                    time: `${format(new Date(), 'yyyy-MM-dd')}`,
+                    favorite: false,
+                    completed: false
+                }
+            )
+            setName('');
+        }
+    }
+
+    const onChangeTextField = (e) => {
+        setName(e.target.value)
+    }
+
     return (
         <>
             <SortButton/>
             <form
                 onSubmit={(e) => {
-                    e.preventDefault()
-                    if (name  && name.trim()) {
-                        setTask(
-                            {
-                                text: name.split(' ').filter(e => e.trim().length).join(' '),
-                                time: `${format(new Date(), 'yyyy-MM-dd')}`,
-                                favorite: false,
-                                completed: false
-                            }
-                        )
-                        setName('');
-                    }
+                    e.preventDefault();
+                    enterTextField();
                 }}
                 className={classes.display_line}>
                 <StyledTextField
@@ -52,24 +64,12 @@ export const EnterField = () => {
                     label="Заметочка"
                     variant="outlined"
                     id="deterministic-outlined-input"
-                    onChange={(e) => setName(e.target.value)}
+                    onChange={(e) => onChangeTextField(e)}
                     value={name}
                 />
                 <AnimationButton
                     className={classes.button}
-                    onClick={() => {
-                        if (name && name.trim()) {
-                            setTask(
-                                {
-                                    text: name.split(' ').filter(e => e.trim().length).join(' '),
-                                    time: `${format(new Date(), 'yyyy-MM-dd')}`,
-                                    favorite: false,
-                                    completed: false
-                                }
-                            )
-                            setName('');
-                        }
-                    }}
+                    onClick={() => enterTextField}
                 >
                     ADD
                 </AnimationButton>
@@ -77,3 +77,5 @@ export const EnterField = () => {
         </>
     );
 }
+
+export default EnterField;

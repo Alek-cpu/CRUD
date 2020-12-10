@@ -12,8 +12,8 @@ export const useStylesMainPage = makeStyles({
     column: {
         display: 'flex',
         flexDirection: 'column-reverse',
-        cursor: 'pointer',
         fontSize: '2rem',
+        cursor: 'pointer',
     },
 
     inputBorder: {
@@ -21,10 +21,10 @@ export const useStylesMainPage = makeStyles({
         color: 'white',
     },
     timeMessage: {
-        fontSize: '12px',
-        color: '#696969',
         width: '110px',
         padding: '0 5px',
+        fontSize: '12px',
+        color: '#696969',
     },
 
     timeLocation: {

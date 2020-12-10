@@ -6,7 +6,10 @@ import {
     GET_TODO,
     ISFAVORITE_TODO, TOGGLE_TASK
 } from './types';
-import {getTasks, POST, deleted, patchTask, getTasksFavourite, getTasksCompleted} from "../../utils/api";
+import {
+    getTasks, postTask, deletedTaskItem,
+    patchTask, getTasksFavourite, getTasksCompleted
+} from "../../utils/api";
 
 export const loadUsersData = () => (dispatch) => getTasks()
     .then((result) => dispatch({
@@ -14,7 +17,7 @@ export const loadUsersData = () => (dispatch) => getTasks()
         params: result.data,
     }));
 
-export const loadFavouriteData = () => (dispatch) => getTasksFavourite()
+export const loadFavoriteTask = () => (dispatch) => getTasksFavourite()
     .then((result) => dispatch({
         type: GET_TODO,
         params: result.data,
@@ -26,13 +29,13 @@ export const loadCompletedData = () => (dispatch) => getTasksCompleted()
         params: result.data,
     }));
 
-export const addNewTask = (currentValue) => (dispatch) => POST(currentValue)
+export const addNewTask = (currentValue) => (dispatch) => postTask(currentValue)
     .then((result) => dispatch({
         type: ADD_TODO,
         params: result.data,
     }));
 
-export const deletedTask = (id) => (dispatch) => deleted(id)
+export const deletedTask = (id) => (dispatch) => deletedTaskItem(id)
     .then((result) => dispatch({
         type: DELETE_TODO,
         id

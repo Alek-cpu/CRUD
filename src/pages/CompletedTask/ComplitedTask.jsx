@@ -1,18 +1,27 @@
 import React, {useState, useEffect} from "react";
 import axios from 'axios';
-import Button from "@material-ui/core/Button";
 import {useDispatch, useSelector} from "react-redux";
-import {useStylesMainPage} from "../../hooks/useStylesMainPage";
-import SpaceStar from "../../img/star-outline.svg";
-import {completedTask, deletedTask, loadFavouriteData, loadUsersData, markToFavorite} from "../../store/users/actions";
-import {ThemeProvider} from "@material-ui/styles";
-import {theme} from "../../themes/themes";
-import {EnterField} from "../../components/EnterField/EnterField";
-import {Checkbox, Input, List, ListItem, ListItemIcon} from "@material-ui/core";
-import SpaceFullStar from "../../img/star.svg";
-import {AnimateRotate} from "../../styled/MainPage";
 
-export default function FavouritePage() {
+import Button from "@material-ui/core/Button";
+import {ThemeProvider} from "@material-ui/styles";
+import {Checkbox, Input, List, ListItem, ListItemIcon} from "@material-ui/core";
+import {useStylesMainPage} from "../../hooks/useStylesMainPage";
+import {
+    completedTask,
+    deletedTask,
+    loadCompletedData,
+    loadFavoriteTask,
+    loadUsersData,
+    markToFavorite
+} from "../../store/users/actions";
+import {theme} from "../../themes/themes";
+import {AnimateRotate} from "../../styled/MainPage";
+import {EnterField} from "../../components/EnterField/EnterField";
+import SpaceFullStar from "../../img/star.svg";
+import SpaceStar from "../../img/star-outline.svg";
+
+
+export default function ComplitedTask() {
     let dispatch = useDispatch();
 
     let todos = useSelector(state => state.tasks);
@@ -20,18 +29,15 @@ export default function FavouritePage() {
     const classes = useStylesMainPage();
 
     const [checked, setChecked] = useState([1]);
-    const [star, setStar] = useState([SpaceStar]);
-    const [data, setData] = useState([]);
-    const [deletedId, setDeletedId] = useState([]);
-    const [toggle, setToggle] = useState();
+    const [taskId, setTaskId] = useState();
 
     useEffect(() => {
-        dispatch(loadFavouriteData());
+        dispatch(loadCompletedData());
     }, [dispatch]);
 
     useEffect(() => {
-        dispatch(deletedTask(deletedId));
-    }, [deletedId]);
+        dispatch(deletedTask(taskId));
+    }, [taskId]);
 
     const handleToggle = (value) => () => {
         const currentIndex = checked.indexOf(value);
@@ -46,13 +52,7 @@ export default function FavouritePage() {
         setChecked(newChecked);
     };
 
-    function maketoFavorite(id, favorite) {
-        const selectedTask = todos.find((item) => item.id === id);
-        selectedTask.favorite = !favorite;
-        dispatch(markToFavorite(selectedTask));
-    }
-
-    function checkedCompleted(id, completed) {
+    const checkedCompleted = (id, completed) => {
         const checkedTask = todos.find((item) => item.id === id);
         checkedTask.completed = !completed;
         dispatch(completedTask(checkedTask));
@@ -64,24 +64,24 @@ export default function FavouritePage() {
                 <List className={classes.root}>
                     {todos.map(({id, time, text, favorite, completed}) => {
                         return (
-                            favorite && !completed &&
+                            completed &&
                             <>
-                                <ListItem key={id} role={undefined} dense button
+                                <ListItem key={id} dense button
                                           onClick={handleToggle(id)}>
                                     <ListItemIcon>
                                         {
-                                            !completed
+                                            completed
                                                 ? <Checkbox
                                                     edge="start"
                                                     tabIndex={-1}
                                                     disableRipple
                                                     onClick={() => checkedCompleted(id, completed)}
+                                                    checked
                                                 />
                                                 : <Checkbox
                                                     edge="start"
                                                     tabIndex={-1}
                                                     disableRipple
-                                                    checked={checked}
                                                     onClick={() => checkedCompleted(id, completed)}
                                                 />
                                         }
@@ -92,18 +92,10 @@ export default function FavouritePage() {
                                         defaultValue={`${text ? text : 'нет значения'}`}
                                         inputProps={{'aria-label': 'description'}}
                                         fullWidth
+                                        disabled
                                     />
                                     <div className={classes.timeMessage}>{time}</div>
-                                    <div
-                                        key={id}
-
-                                    >
-                                        <img
-                                            src={favorite ? SpaceFullStar : SpaceStar}
-                                            onClick={() => maketoFavorite(id, favorite)}
-                                        />
-                                    </div>
-                                    <Button onClick={() => setDeletedId(id)}>
+                                    <Button onClick={() => setTaskId(id)}>
                                         <AnimateRotate color={"error"}/>
                                     </Button>
                                 </ListItem>

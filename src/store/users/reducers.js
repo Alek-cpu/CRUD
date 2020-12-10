@@ -9,9 +9,8 @@ const initialState = {
 
 export const reducer = (state = initialState, action) => {
     switch (action.type) {
-        case GET_TODO:
-        {
-            return { ...state, tasks: action.params };
+        case GET_TODO: {
+            return {...state, tasks: action.params};
         }
         case ADD_TODO:
             return {
@@ -37,11 +36,8 @@ export const reducer = (state = initialState, action) => {
         case UPDATE_TODO:
             return {
                 ...state,
-                tasks: state.tasks.map((item) => todo(item,action))
+                tasks: state.tasks.map((item) => todo(item, action))
             }
-
-
-
     }
     return state;
 }

@@ -1,25 +1,27 @@
-import React, {useState,useEffect} from "react";
+import React, {useState, useEffect} from "react";
 import axios from 'axios';
-import Button from "@material-ui/core/Button";
 import {useDispatch, useSelector} from "react-redux";
+
+import Button from "@material-ui/core/Button";
 import {useStylesMainPage} from "../../hooks/useStylesMainPage";
-import SpaceStar from "../../img/star-outline.svg";
+import {ThemeProvider} from "@material-ui/styles";
 import {
     completedTask,
     deletedTask,
-    loadCompletedData,
-    loadFavouriteData,
+    loadFavoriteTask,
     loadUsersData,
-    markToFavorite
+    markToFavorite,
+    uploadTask
 } from "../../store/users/actions";
-import {ThemeProvider} from "@material-ui/styles";
 import {theme} from "../../themes/themes";
 import {EnterField} from "../../components/EnterField/EnterField";
-import {Checkbox, Input, List, ListItem, ListItemIcon} from "@material-ui/core";
-import SpaceFullStar from "../../img/star.svg";
-import {AnimateRotate} from "../../styled/MainPage";
+import {Checkbox, Input, InputBase, List, ListItem, ListItemIcon} from "@material-ui/core";
 
-export default function CompletedTask () {
+import {AnimateRotate} from "../../styled/MainPage";
+import SpaceStar from "../../img/star-outline.svg";
+import SpaceFullStar from "../../img/star.svg";
+
+export default function FavoritePage() {
     let dispatch = useDispatch();
 
     let todos = useSelector(state => state.tasks);
@@ -27,13 +29,12 @@ export default function CompletedTask () {
     const classes = useStylesMainPage();
 
     const [checked, setChecked] = useState([1]);
-    const [star, setStar] = useState([SpaceStar]);
-    const [data, setData] = useState([]);
-    const [deletedId, setDeletedId] = useState([]);
-    // const [toggle, setToggle] = useState(data.favorite);
+    const [deletedId, setDeletedId] = useState();
+    const [editTask, setEditTask] = useState();
+    const [input, setInput] = useState(false);
 
     useEffect(() => {
-        dispatch(loadCompletedData());
+        dispatch(loadFavoriteTask());
     }, [dispatch]);
 
     useEffect(() => {
@@ -53,57 +54,97 @@ export default function CompletedTask () {
         setChecked(newChecked);
     };
 
-    function maketoFavorite(id, favorite) {
+    const maketoFavorite = (id, favorite) => {
         const selectedTask = todos.find((item) => item.id === id);
         selectedTask.favorite = !favorite;
         dispatch(markToFavorite(selectedTask));
     }
 
-    function checkedCompleted(id, completed) {
+    const checkedCompleted = (id, completed) => {
         const checkedTask = todos.find((item) => item.id === id);
         checkedTask.completed = !completed;
         dispatch(completedTask(checkedTask));
     }
 
+    const uploadedTask = (id, text) => {
+        const textTask = todos.find((item) => item.id === id);
+        textTask.text = editTask.split(' ').filter(e => e.trim().length).join(' ');
+        if (!textTask.text) {
+            textTask.text = text;
+        }
+        dispatch(uploadTask(textTask));
+    }
+
+    const changeTask = (e) => {
+        setEditTask(e.currentTarget.value)
+    }
+
     return (
         <>
-            {console.log({sss: todos})}
             <ThemeProvider theme={theme}>
-                <EnterField/>
                 <List className={classes.root}>
                     {todos.map(({id, time, text, favorite, completed}) => {
                         return (
-                            completed &&
+                            favorite && !completed &&
                             <>
-                                <ListItem key={id} role={undefined} dense button
+                                <ListItem key={id} dense button
                                           onClick={handleToggle(id)}>
                                     <ListItemIcon>
                                         {
-                                            !completed
+                                            completed
                                                 ? <Checkbox
                                                     edge="start"
                                                     tabIndex={-1}
                                                     disableRipple
                                                     onClick={() => checkedCompleted(id, completed)}
+                                                    checked
                                                 />
                                                 : <Checkbox
                                                     edge="start"
                                                     tabIndex={-1}
                                                     disableRipple
-                                                    checked={checked}
                                                     onClick={() => checkedCompleted(id, completed)}
-                                                    // disabled
                                                 />
                                         }
                                     </ListItemIcon>
-                                    <Input
-                                        id={id}
-                                        className={classes.inputBorder}
-                                        primary={`${text}`}
-                                        defaultValue={`${text ? text : 'нет значения'}`}
-                                        inputProps={{'aria-label': 'description'}}
-                                        fullWidth
-                                    />
+                                    {input
+                                        ? <Input
+                                            key={id}
+                                            id={id}
+                                            className={classes.inputBorder}
+                                            defaultValue={`${text ? text : 'нет значения'}`}
+                                            inputProps={{'aria-label': 'description'}}
+                                            fullWidth
+                                            onChange={
+                                                (e) => changeTask
+                                            }
+                                            onKeyPress={
+                                                (e) => {
+                                                    if (e.key === 'Enter') {
+                                                        uploadedTask(id, text);
+                                                        setInput(false);
+                                                    }
+                                                }
+                                            }
+                                            onBlur={
+                                                (e) => {
+                                                    uploadedTask(id, text);
+                                                    setInput(false);
+                                                }
+                                            }
+                                        />
+                                        : <InputBase
+                                            key={id}
+                                            className={classes.inputBorder}
+                                            defaultValue={`${text ? text : 'нет значения'}`}
+                                            fullWidth
+                                            onFocus={
+                                                () => {
+                                                    setInput(true);
+                                                }
+                                            }
+                                        />
+                                    }
                                     <div className={classes.timeMessage}>{time}</div>
                                     <div
                                         key={id}

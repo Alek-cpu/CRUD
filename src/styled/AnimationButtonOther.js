@@ -2,7 +2,7 @@ import styled from "styled-components";
 import {Button} from "@material-ui/core";
 
 export const AnimationButtonOther = styled(Button)`
-  margin: 30px 0 30px 0;
+  margin: 30px 0;
   color: white;
   text-decoration: none;
   text-transform: none;

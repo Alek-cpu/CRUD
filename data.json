@@ -1,32 +1,18 @@
 {
   "allTasks": [
     {
-      "text": "trusdj0",
-      "time": "2020-12-08",
-      "favorite": false,
-      "id": 9,
-      "completed": false
-    },
-    {
-      "text": "trusd",
+      "text": "Реализовал редак тирование, ура!=)",
       "time": "2020-12-09",
       "favorite": true,
       "id": 10,
-      "completed": false
+      "completed": true
     },
     {
-      "text": "Добавил функционал по выбору селекта",
-      "time": "2020-12-09",
-      "favorite": false,
-      "id": 11,
-      "completed": false
-    },
-    {
-      "text": "олтваотмлвоатм",
+      "text": "олтваотмлвоатм1",
       "time": "2020-12-09",
       "favorite": true,
       "id": 12,
-      "completed": true
+      "completed": false
     },
     {
       "text": "Привяу)",
@@ -36,18 +22,32 @@
       "completed": true
     },
     {
-      "text": "Сейчас я сделаю логику чекбокса)",
-      "time": "2020-12-10",
+      "text": "Рефактор",
+      "time": "2020-12-11",
       "favorite": false,
-      "completed": true,
-      "id": 14
+      "completed": false,
+      "id": 16
     },
     {
-      "text": "trusdj",
-      "time": "2020-12-10",
+      "text": "Рефактор1",
+      "time": "2020-12-11",
+      "favorite": false,
+      "completed": false,
+      "id": 17
+    },
+    {
+      "text": "Ре.",
+      "time": "2020-12-11",
+      "favorite": false,
+      "completed": true,
+      "id": 18
+    },
+    {
+      "text": "Тестим вынос функции",
+      "time": "2020-12-11",
       "favorite": true,
       "completed": false,
-      "id": 15
+      "id": 19
     }
   ]
 }

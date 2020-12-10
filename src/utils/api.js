@@ -5,11 +5,11 @@ const instance = axios.create({
     responseType: "json"
 });
 
-export function POST(task) {
+export function postTask(task) {
     return instance.post('allTasks/', task);
 }
 
-export function deleted(deleted) {
+export function deletedTaskItem(deleted) {
     return (instance.delete(`allTasks/${deleted}`));
 }
 

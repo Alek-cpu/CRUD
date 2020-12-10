@@ -1,12 +1,14 @@
 import React, {useEffect, useState} from "react";
-import {createMuiTheme, makeStyles} from "@material-ui/core/styles";
+import {useDispatch, useSelector} from "react-redux";
 import styled from "styled-components";
+
+import {createMuiTheme, makeStyles} from "@material-ui/core/styles";
 import {ThemeProvider} from "@material-ui/styles";
 import {
     Checkbox, Input, InputBase, List, ListItem, ListItemIcon, ListItemSecondaryAction
 } from "@material-ui/core";
-import {useDispatch, useSelector} from "react-redux";
-
+import Button from "@material-ui/core/Button";
+import CloseIcon from "@material-ui/icons/Close";
 import {
     addNewTask,
     completedTask,
@@ -15,20 +17,18 @@ import {
     markToFavorite,
     uploadTask
 } from "../../store/users/actions";
-
-import Button from "@material-ui/core/Button";
-import {EnterField} from "../../components/EnterField/EnterField";
+import EnterField from "../../components/EnterField/EnterField";
 import {AnimateRotate} from '../../styled/MainPage';
 import {theme} from '../../themes/themes'
 import {useStylesMainPage} from '../../hooks/useStylesMainPage'
 
-import CloseIcon from "@material-ui/icons/Close";
+
 import SpaceStar from "../../img/star-outline.svg";
 import SpaceHalfStar from "../../img/star-half.svg";
 import SpaceFullStar from "../../img/star.svg";
 import {index} from "../../store";
 
-export const MainPage = () => {
+function MainPage() {
 
     let dispatch = useDispatch();
 
@@ -37,7 +37,7 @@ export const MainPage = () => {
     const classes = useStylesMainPage();
 
     const [checked, setChecked] = useState([1]);
-    const [deletedId, setDeletedId] = useState([]);
+    const [taskId, setTaskId] = useState([]);
     const [input, setInput] = useState(false);
     const [editTask, setEditTask] = useState();
 
@@ -46,8 +46,8 @@ export const MainPage = () => {
     }, [dispatch]);
 
     useEffect(() => {
-        dispatch(deletedTask(deletedId));
-    }, [deletedId]);
+        dispatch(deletedTask(taskId));
+    }, [taskId]);
 
     const handleToggle = (value) => () => {
         const currentIndex = checked.indexOf(value);
@@ -62,23 +62,29 @@ export const MainPage = () => {
         setChecked(newChecked);
     };
 
-    function maketoFavorite(id, favorite) {
+    const maketoFavorite = (id, favorite) => {
         const selectedTask = todos.find((item) => item.id === id);
         selectedTask.favorite = !favorite;
         dispatch(markToFavorite(selectedTask));
     }
 
-    function checkedCompleted(id, completed) {
+    const checkedCompleted = (id, completed) => {
         const checkedTask = todos.find((item) => item.id === id);
         checkedTask.completed = !completed;
         dispatch(completedTask(checkedTask));
     }
 
-    function uploadedTask(id, text) {
-        console.log(text)
+    const uploadedTask = (id, text) => {
         const textTask = todos.find((item) => item.id === id);
-        textTask.text = editTask;
+        textTask.text = editTask.split(' ').filter(e => e.trim().length).join(' ');
+        if (!textTask.text) {
+            textTask.text = text;
+        }
         dispatch(uploadTask(textTask));
+    }
+
+    const changeTextField = (e) => {
+        setEditTask(e.currentTarget.value)
     }
 
     const filteredTasks = todos.filter(({status}) => (!status))
@@ -92,7 +98,7 @@ export const MainPage = () => {
                     {filteredTasks.map(({id, time, text, favorite, completed}) => {
                         return (
                             !completed &&
-                            <ListItem key={id} role={undefined} dense button
+                            <ListItem key={id} dense button
                                       onClick={handleToggle(id)}>
                                 <ListItemIcon>
                                     {
@@ -115,30 +121,23 @@ export const MainPage = () => {
                                 </ListItemIcon>
                                 {input
                                     ? <Input
-                                        key={id}
-                                        id={id}
                                         className={classes.inputBorder}
-                                        primary={`${text}`}
                                         defaultValue={`${text ? text : 'нет значения'}`}
                                         inputProps={{'aria-label': 'description'}}
                                         fullWidth
-                                        onChange={(e) => setEditTask(e.target.value)}
-                                        value={editTask}
+                                        onChange={(e) => changeTextField(e)}
                                         onKeyPress={(e) => {
                                             if (e.key === 'Enter') {
-                                                // console.log(editTask)
-                                                console.log('enter press here!')
-                                                // uploadedTask(id,editTask,text);
+                                                uploadedTask(id, text);
+                                                setInput(false);
                                             }
                                         }}
                                         onBlur={(e) => {
-                                            console.log('blur! ')
                                             uploadedTask(id, text);
                                             setInput(false);
                                         }}
                                     />
                                     : <InputBase
-                                        key={id}
                                         className={classes.inputBorder}
                                         defaultValue={`${text ? text : 'нет значения'}`}
                                         fullWidth
@@ -152,7 +151,7 @@ export const MainPage = () => {
                                     src={favorite ? SpaceFullStar : SpaceStar}
                                     onClick={() => maketoFavorite(id, favorite)}
                                 />
-                                <Button onClick={() => setDeletedId(id)}>
+                                <Button onClick={() => setTaskId(id)}>
                                     <AnimateRotate color={"error"}/>
                                 </Button>
                             </ListItem>
@@ -163,3 +162,5 @@ export const MainPage = () => {
         </>
     );
 }
+
+export default MainPage;
