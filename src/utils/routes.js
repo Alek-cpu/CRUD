@@ -1,7 +1,7 @@
 import {MainPage} from "../pages/MainPage/MainPage";
 import FavouritePage from "../pages/FavoritePage/FavouritePage";
 import NotFound from "../pages/NotFound/NotFound";
-import ComplitedTask from "../pages/CompletedTask/ComplitedTask";
+import CompletedTask from "../pages/CompletedTask/CompletedTask";
 
 export const routes = [
     {
@@ -18,7 +18,7 @@ export const routes = [
     {
         id: 4,
         path: '/complete-task',
-        component: ComplitedTask,
+        component: CompletedTask,
     },
     {
         id: 4,

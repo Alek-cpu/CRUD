@@ -75,8 +75,9 @@ export const MainPage = () => {
     }
 
     function uploadedTask(id, text) {
+        console.log(text)
         const textTask = todos.find((item) => item.id === id);
-        textTask.text = !text;
+        textTask.text = editTask;
         dispatch(uploadTask(textTask));
     }
 
@@ -114,6 +115,7 @@ export const MainPage = () => {
                                 </ListItemIcon>
                                 {input
                                     ? <Input
+                                        key={id}
                                         id={id}
                                         className={classes.inputBorder}
                                         primary={`${text}`}
@@ -124,23 +126,25 @@ export const MainPage = () => {
                                         value={editTask}
                                         onKeyPress={(e) => {
                                             if (e.key === 'Enter') {
-                                                console.log(editTask)
-                                                console.log('enter press here! ')
-                                                uploadedTask(id,editTask);
-                                                // setInput(false);
+                                                // console.log(editTask)
+                                                console.log('enter press here!')
+                                                // uploadedTask(id,editTask,text);
                                             }
                                         }}
                                         onBlur={(e) => {
                                             console.log('blur! ')
-                                            uploadedTask(id,editTask);
+                                            uploadedTask(id, text);
                                             setInput(false);
                                         }}
                                     />
                                     : <InputBase
+                                        key={id}
                                         className={classes.inputBorder}
                                         defaultValue={`${text ? text : 'нет значения'}`}
                                         fullWidth
-                                        onFocus={() => setInput(true)}
+                                        onFocus={() => {
+                                            setInput(true);
+                                        }}
                                     />
                                 }
                                 <div className={classes.timeMessage}>{time}</div>

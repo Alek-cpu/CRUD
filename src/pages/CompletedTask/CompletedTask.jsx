@@ -19,7 +19,7 @@ import {Checkbox, Input, List, ListItem, ListItemIcon} from "@material-ui/core";
 import SpaceFullStar from "../../img/star.svg";
 import {AnimateRotate} from "../../styled/MainPage";
 
-export default function ComplitedTask () {
+export default function CompletedTask () {
     let dispatch = useDispatch();
 
     let todos = useSelector(state => state.tasks);
