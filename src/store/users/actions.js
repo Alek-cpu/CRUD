@@ -4,7 +4,7 @@ import {
     UPDATE_TODO,
     DELETE_TODO,
     GET_TODO,
-    ISFAVORITE_TODO
+    ISFAVORITE_TODO, TOGGLE_TASK
 } from './types';
 import {getTasks, POST, deleted, patchTask, getTasksFavourite, getTasksCompleted} from "../../utils/api";
 
@@ -36,10 +36,22 @@ export const deletedTask = (id) => (dispatch) => deleted(id)
     .then((result) => dispatch({
         type: DELETE_TODO,
         id
-    }));//Объявить объект полностью и передавать его
+    }));
 
 export const markToFavorite = (element) => (dispatch) => patchTask(element.id, element)
     .then(() => dispatch({
         type: ISFAVORITE_TODO,
+        params: element,
+    }));
+
+export const completedTask = (element) => (dispatch) => patchTask(element.id, element)
+    .then(() => dispatch({
+        type: TOGGLE_TASK,
+        params: element,
+    }));
+
+export const uploadTask = (element) => (dispatch) => patchTask(element.id, element)
+    .then(() => dispatch({
+        type: UPDATE_TODO,
         params: element,
     }));

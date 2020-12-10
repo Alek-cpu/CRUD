@@ -4,7 +4,14 @@ import Button from "@material-ui/core/Button";
 import {useDispatch, useSelector} from "react-redux";
 import {useStylesMainPage} from "../../hooks/useStylesMainPage";
 import SpaceStar from "../../img/star-outline.svg";
-import {deletedTask, loadCompletedData, loadFavouriteData, loadUsersData} from "../../store/users/actions";
+import {
+    completedTask,
+    deletedTask,
+    loadCompletedData,
+    loadFavouriteData,
+    loadUsersData,
+    markToFavorite
+} from "../../store/users/actions";
 import {ThemeProvider} from "@material-ui/styles";
 import {theme} from "../../themes/themes";
 import {EnterField} from "../../components/EnterField/EnterField";
@@ -46,23 +53,48 @@ export default function ComplitedTask () {
         setChecked(newChecked);
     };
 
+    function maketoFavorite(id, favorite) {
+        const selectedTask = todos.find((item) => item.id === id);
+        selectedTask.favorite = !favorite;
+        dispatch(markToFavorite(selectedTask));
+    }
+
+    function checkedCompleted(id, completed) {
+        const checkedTask = todos.find((item) => item.id === id);
+        checkedTask.completed = !completed;
+        dispatch(completedTask(checkedTask));
+    }
+
     return (
         <>
             {console.log({sss: todos})}
             <ThemeProvider theme={theme}>
                 <EnterField/>
                 <List className={classes.root}>
-                    {todos.map(({id, time, text, favorite}) => {
+                    {todos.map(({id, time, text, favorite, completed}) => {
                         return (
+                            completed &&
                             <>
                                 <ListItem key={id} role={undefined} dense button
                                           onClick={handleToggle(id)}>
                                     <ListItemIcon>
-                                        <Checkbox
-                                            edge="start"
-                                            tabIndex={-1}
-                                            disableRipple
-                                        />
+                                        {
+                                            !completed
+                                                ? <Checkbox
+                                                    edge="start"
+                                                    tabIndex={-1}
+                                                    disableRipple
+                                                    onClick={() => checkedCompleted(id, completed)}
+                                                />
+                                                : <Checkbox
+                                                    edge="start"
+                                                    tabIndex={-1}
+                                                    disableRipple
+                                                    checked={checked}
+                                                    onClick={() => checkedCompleted(id, completed)}
+                                                    // disabled
+                                                />
+                                        }
                                     </ListItemIcon>
                                     <Input
                                         id={id}
@@ -77,16 +109,10 @@ export default function ComplitedTask () {
                                         key={id}
 
                                     >
-                                        {favorite ?
-                                            <img
-                                                src={SpaceFullStar}
-                                                id={id}
-                                            /> :
-                                            <img
-                                                src={SpaceStar}
-                                                id={id}
-                                            />
-                                        }
+                                        <img
+                                            src={favorite ? SpaceFullStar : SpaceStar}
+                                            onClick={() => maketoFavorite(id, favorite)}
+                                        />
                                     </div>
                                     <Button onClick={() => setDeletedId(id)}>
                                         <AnimateRotate color={"error"}/>

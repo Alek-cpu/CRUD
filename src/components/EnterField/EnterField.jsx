@@ -17,13 +17,7 @@ import {AnimationButton} from "../../styled/AnimationButton";
 export const EnterField = () => {
 
     const [name, setName] = useState();
-    const [task, setTask] = useState({
-        text: "",
-        time: "",
-        favorite: false,
-        id: null,
-        completed: false
-    });
+    const [task, setTask] = useState({});
     let todos = useSelector(state => state)
     let dispatch = useDispatch();
     const classes = useStylesEnterField();
@@ -45,7 +39,8 @@ export const EnterField = () => {
                             {
                                 text: name.split(' ').filter(e => e.trim().length).join(' '),
                                 time: `${format(new Date(), 'yyyy-MM-dd')}`,
-                                favorite: false
+                                favorite: false,
+                                completed: false
                             }
                         )
                         setName('');
@@ -68,7 +63,8 @@ export const EnterField = () => {
                                 {
                                     text: name.split(' ').filter(e => e.trim().length).join(' '),
                                     time: `${format(new Date(), 'yyyy-MM-dd')}`,
-                                    favorite: false
+                                    favorite: false,
+                                    completed: false
                                 }
                             )
                             setName('');

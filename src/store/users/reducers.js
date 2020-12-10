@@ -29,6 +29,16 @@ export const reducer = (state = initialState, action) => {
                 tasks: state.tasks.map((item) => todo(item, action))
                     .sort((a, b) => b.favorite - a.favorite),
             };
+        case TOGGLE_TASK:
+            return {
+                ...state,
+                tasks: state.tasks.map((item) => todo(item, action))
+            };
+        case UPDATE_TODO:
+            return {
+                ...state,
+                tasks: state.tasks.map((item) => todo(item,action))
+            }
 
 
 

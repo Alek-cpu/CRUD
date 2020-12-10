@@ -1,14 +1,14 @@
 {
   "allTasks": [
     {
-      "text": "Добавить функционал обновления информации, сортировка, каталог",
+      "text": "Восьмое число",
       "time": "2020-12-08",
-      "favorite": true,
+      "favorite": false,
       "id": 9,
       "completed": false
     },
     {
-      "text": "ну ЗДрасьте",
+      "text": "true",
       "time": "2020-12-09",
       "favorite": true,
       "id": 10,
@@ -18,13 +18,36 @@
       "text": "Добавил функционал по выбору селекта",
       "time": "2020-12-09",
       "favorite": false,
-      "id": 11
+      "id": 11,
+      "completed": false
     },
     {
       "text": "олтваотмлвоатм",
       "time": "2020-12-09",
+      "favorite": true,
+      "id": 12,
+      "completed": true
+    },
+    {
+      "text": "Привяу)",
+      "time": "2020-12-10",
       "favorite": false,
-      "id": 12
+      "id": 13,
+      "completed": true
+    },
+    {
+      "text": "Сейчас я сделаю логику чекбокса)",
+      "time": "2020-12-10",
+      "favorite": false,
+      "completed": true,
+      "id": 14
+    },
+    {
+      "text": "sdjvnsjkdvn",
+      "time": "2020-12-10",
+      "favorite": true,
+      "completed": false,
+      "id": 15
     }
   ]
 }

@@ -3,11 +3,18 @@ import {createMuiTheme, makeStyles} from "@material-ui/core/styles";
 import styled from "styled-components";
 import {ThemeProvider} from "@material-ui/styles";
 import {
-    Checkbox, Input, List, ListItem, ListItemIcon, ListItemSecondaryAction
+    Checkbox, Input, InputBase, List, ListItem, ListItemIcon, ListItemSecondaryAction
 } from "@material-ui/core";
 import {useDispatch, useSelector} from "react-redux";
 
-import {addNewTask, deletedTask, loadUsersData, markToFavorite} from "../../store/users/actions";
+import {
+    addNewTask,
+    completedTask,
+    deletedTask,
+    loadUsersData,
+    markToFavorite,
+    uploadTask
+} from "../../store/users/actions";
 
 import Button from "@material-ui/core/Button";
 import {EnterField} from "../../components/EnterField/EnterField";
@@ -30,9 +37,9 @@ export const MainPage = () => {
     const classes = useStylesMainPage();
 
     const [checked, setChecked] = useState([1]);
-    const [star, setStar] = useState([SpaceStar]);
-
     const [deletedId, setDeletedId] = useState([]);
+    const [input, setInput] = useState(false);
+    const [editTask, setEditTask] = useState();
 
     useEffect(() => {
         dispatch(loadUsersData());
@@ -61,8 +68,20 @@ export const MainPage = () => {
         dispatch(markToFavorite(selectedTask));
     }
 
+    function checkedCompleted(id, completed) {
+        const checkedTask = todos.find((item) => item.id === id);
+        checkedTask.completed = !completed;
+        dispatch(completedTask(checkedTask));
+    }
+
+    function uploadedTask(id, text) {
+        const textTask = todos.find((item) => item.id === id);
+        textTask.text = !text;
+        dispatch(uploadTask(textTask));
+    }
+
     const filteredTasks = todos.filter(({status}) => (!status))
-        .sort((a, b) => b.favorite - a.favorite);
+        .sort((a, b) => b.favorite - a.favorite)
 
     return (
         <>
@@ -71,6 +90,7 @@ export const MainPage = () => {
                 <List className={classes.root}>
                     {filteredTasks.map(({id, time, text, favorite, completed}) => {
                         return (
+                            !completed &&
                             <ListItem key={id} role={undefined} dense button
                                       onClick={handleToggle(id)}>
                                 <ListItemIcon>
@@ -80,16 +100,19 @@ export const MainPage = () => {
                                                 edge="start"
                                                 tabIndex={-1}
                                                 disableRipple
+                                                onClick={() => checkedCompleted(id, completed)}
                                             />
                                             : <Checkbox
                                                 edge="start"
                                                 tabIndex={-1}
                                                 disableRipple
                                                 checked={checked}
+                                                onClick={() => checkedCompleted(id, completed)}
+                                                disabled
                                             />
                                     }
                                 </ListItemIcon>
-                                {!completed
+                                {input
                                     ? <Input
                                         id={id}
                                         className={classes.inputBorder}
@@ -97,15 +120,27 @@ export const MainPage = () => {
                                         defaultValue={`${text ? text : 'нет значения'}`}
                                         inputProps={{'aria-label': 'description'}}
                                         fullWidth
+                                        onChange={(e) => setEditTask(e.target.value)}
+                                        value={editTask}
+                                        onKeyPress={(e) => {
+                                            if (e.key === 'Enter') {
+                                                console.log(editTask)
+                                                console.log('enter press here! ')
+                                                uploadedTask(id,editTask);
+                                                // setInput(false);
+                                            }
+                                        }}
+                                        onBlur={(e) => {
+                                            console.log('blur! ')
+                                            uploadedTask(id,editTask);
+                                            setInput(false);
+                                        }}
                                     />
-                                    : <Input
-                                        disabled
-                                        id={id}
+                                    : <InputBase
                                         className={classes.inputBorder}
-                                        primary={`${text}`}
                                         defaultValue={`${text ? text : 'нет значения'}`}
-                                        inputProps={{'aria-label': 'description'}}
                                         fullWidth
+                                        onFocus={() => setInput(true)}
                                     />
                                 }
                                 <div className={classes.timeMessage}>{time}</div>

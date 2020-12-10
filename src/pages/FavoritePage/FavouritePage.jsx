@@ -1,10 +1,10 @@
-import React, {useState,useEffect} from "react";
+import React, {useState, useEffect} from "react";
 import axios from 'axios';
 import Button from "@material-ui/core/Button";
 import {useDispatch, useSelector} from "react-redux";
 import {useStylesMainPage} from "../../hooks/useStylesMainPage";
 import SpaceStar from "../../img/star-outline.svg";
-import {deletedTask, loadFavouriteData, loadUsersData} from "../../store/users/actions";
+import {completedTask, deletedTask, loadFavouriteData, loadUsersData, markToFavorite} from "../../store/users/actions";
 import {ThemeProvider} from "@material-ui/styles";
 import {theme} from "../../themes/themes";
 import {EnterField} from "../../components/EnterField/EnterField";
@@ -12,7 +12,7 @@ import {Checkbox, Input, List, ListItem, ListItemIcon} from "@material-ui/core";
 import SpaceFullStar from "../../img/star.svg";
 import {AnimateRotate} from "../../styled/MainPage";
 
-export default function FavouritePage () {
+export default function FavouritePage() {
     let dispatch = useDispatch();
 
     let todos = useSelector(state => state.tasks);
@@ -46,22 +46,45 @@ export default function FavouritePage () {
         setChecked(newChecked);
     };
 
+    function maketoFavorite(id, favorite) {
+        const selectedTask = todos.find((item) => item.id === id);
+        selectedTask.favorite = !favorite;
+        dispatch(markToFavorite(selectedTask));
+    }
+
+    function checkedCompleted(id, completed) {
+        const checkedTask = todos.find((item) => item.id === id);
+        checkedTask.completed = !completed;
+        dispatch(completedTask(checkedTask));
+    }
+
     return (
         <>
-            {console.log({sss: todos})}
             <ThemeProvider theme={theme}>
                 <List className={classes.root}>
                     {todos.map(({id, time, text, favorite, completed}) => {
                         return (
+                            favorite &&
                             <>
                                 <ListItem key={id} role={undefined} dense button
                                           onClick={handleToggle(id)}>
                                     <ListItemIcon>
-                                        <Checkbox
-                                            edge="start"
-                                            tabIndex={-1}
-                                            disableRipple
-                                        />
+                                        {
+                                            !completed
+                                                ? <Checkbox
+                                                    edge="start"
+                                                    tabIndex={-1}
+                                                    disableRipple
+                                                    onClick={() => checkedCompleted(id, completed)}
+                                                />
+                                                : <Checkbox
+                                                    edge="start"
+                                                    tabIndex={-1}
+                                                    disableRipple
+                                                    checked={checked}
+                                                    onClick={() => checkedCompleted(id, completed)}
+                                                />
+                                        }
                                     </ListItemIcon>
                                     <Input
                                         id={id}
@@ -75,16 +98,10 @@ export default function FavouritePage () {
                                         key={id}
 
                                     >
-                                        {favorite ?
-                                            <img
-                                                src={SpaceFullStar}
-                                                id={id}
-                                            /> :
-                                            <img
-                                                src={SpaceStar}
-                                                id={id}
-                                            />
-                                        }
+                                        <img
+                                            src={favorite ? SpaceFullStar : SpaceStar}
+                                            onClick={() => maketoFavorite(id, favorite)}
+                                        />
                                     </div>
                                     <Button onClick={() => setDeletedId(id)}>
                                         <AnimateRotate color={"error"}/>
