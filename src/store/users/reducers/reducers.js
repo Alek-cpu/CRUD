@@ -1,7 +1,6 @@
 import {
     ADD_TODO, DELETE_TODO, UPDATE_TODO, GET_TODO, ISFAVORITE_TODO, TOGGLE_TASK
-} from './types';
-import todo from "./reducers/reducer";
+} from '../types';
 
 const initialState = {
     tasks: [],
@@ -25,18 +24,17 @@ export const reducer = (state = initialState, action) => {
         case ISFAVORITE_TODO:
             return {
                 ...state,
-                tasks: state.tasks.map((item) => todo(item, action))
-                    .sort((a, b) => b.favorite - a.favorite),
+                tasks: state.tasks.map((item) => item.id === action.params.id ? action.params : item),
             };
         case TOGGLE_TASK:
             return {
                 ...state,
-                tasks: state.tasks.map((item) => todo(item, action))
+                tasks: state.tasks.map((item) => item.id === action.params.id ? action.params : item)
             };
         case UPDATE_TODO:
             return {
                 ...state,
-                tasks: state.tasks.map((item) => todo(item, action))
+                tasks: state.tasks.map((item) => item.id === action.params.id ? action.params : item)
             }
     }
     return state;

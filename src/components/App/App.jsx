@@ -29,13 +29,10 @@ export const App = () =>
             <section>
                 <Container fixed>
                     <Switch>
-                        {routes.map(({id, exact, path, component}) => (
+                        {routes.map((route) => (
                             <Route
-                                key={id}
-                                exact={exact}
-                                id={id}
-                                path={path}
-                                component={component}
+                                {...route}
+                                key={route.id}
                             />
                         ))}
                     </Switch>

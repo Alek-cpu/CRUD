@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {format, compareAsc} from 'date-fns';
 import styled from "styled-components";
 
-import {addNewTask, loadUsersData} from "../../store/users/actions";
+import {addNewTask, loadUsersData} from "../../store/users/actions/actions";
 import {makeStyles} from "@material-ui/core/styles";
 import {TextField} from "@material-ui/core";
 import Button from "@material-ui/core/Button";
@@ -69,7 +69,7 @@ function EnterField() {
                 />
                 <AnimationButton
                     className={classes.button}
-                    onClick={() => enterTextField}
+                    onClick={() => enterTextField()}
                 >
                     ADD
                 </AnimationButton>

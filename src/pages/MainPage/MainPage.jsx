@@ -16,12 +16,11 @@ import {
     loadUsersData,
     markToFavorite,
     uploadTask
-} from "../../store/users/actions";
+} from "../../store/users/actions/actions";
 import EnterField from "../../components/EnterField/EnterField";
 import {AnimateRotate} from '../../styled/MainPage';
 import {theme} from '../../themes/themes'
 import {useStylesMainPage} from '../../hooks/useStylesMainPage'
-
 
 import SpaceStar from "../../img/star-outline.svg";
 import SpaceHalfStar from "../../img/star-half.svg";
@@ -32,62 +31,50 @@ function MainPage() {
 
     let dispatch = useDispatch();
 
-    let todos = useSelector(state => state.tasks);
+    let todos = useSelector(({ tasks }) => tasks);
 
     const classes = useStylesMainPage();
 
     const [checked, setChecked] = useState([1]);
     const [taskId, setTaskId] = useState([]);
-    const [input, setInput] = useState(false);
+    const [isInput, setIsInput] = useState(false);
     const [editTask, setEditTask] = useState();
 
     useEffect(() => {
         dispatch(loadUsersData());
-    }, [dispatch]);
+    }, []);
 
     useEffect(() => {
         dispatch(deletedTask(taskId));
     }, [taskId]);
 
-    const handleToggle = (value) => () => {
-        const currentIndex = checked.indexOf(value);
-        const newChecked = [...checked];
-
-        if (currentIndex === -1) {
-            newChecked.push(value);
-        } else {
-            newChecked.splice(currentIndex, 1);
-        }
-
-        setChecked(newChecked);
-    };
-
-    const maketoFavorite = (id, favorite) => {
+    const toggleState = (id, field, value) => {
         const selectedTask = todos.find((item) => item.id === id);
-        selectedTask.favorite = !favorite;
-        dispatch(markToFavorite(selectedTask));
-    }
-
-    const checkedCompleted = (id, completed) => {
-        const checkedTask = todos.find((item) => item.id === id);
-        checkedTask.completed = !completed;
-        dispatch(completedTask(checkedTask));
+        dispatch(markToFavorite({...selectedTask, [field]: value }));
     }
 
     const uploadedTask = (id, text) => {
         const textTask = todos.find((item) => item.id === id);
-        textTask.text = editTask.split(' ').filter(e => e.trim().length).join(' ');
-        if (!textTask.text) {
-            textTask.text = text;
+        console.log(editTask.length);
+        console.log(text);
+        if (editTask.length === 0) {
+            dispatch(uploadTask({...textTask, text: text}))
+        } else {
+            dispatch(uploadTask({...textTask, text: editTask.split(' ').filter(e => e.trim().length).join(' ')}))
         }
-        dispatch(uploadTask(textTask));
     }
 
-    const changeTextField = (e) => {
-        setEditTask(e.currentTarget.value)
-    }
+    const handleToggle = (value) => () => {
+        const index = checked.indexOf(value);
 
-    const filteredTasks = todos.filter(({status}) => (!status))
+        if (index === -1) {
+            return [...checked, value];
+        }
+
+        return [...checked.slice(index, index + 1), ...checked.slice((index + 1))]
+    };
+
+    const filteredTasks = todos.filter(({parametr}) => (!parametr))
         .sort((a, b) => b.favorite - a.favorite)
 
     return (
@@ -98,58 +85,61 @@ function MainPage() {
                     {filteredTasks.map(({id, time, text, favorite, completed}) => {
                         return (
                             !completed &&
-                            <ListItem key={id} dense button
-                                      onClick={handleToggle(id)}>
+                            <ListItem key={id} dense button onClick={handleToggle(id)}>
                                 <ListItemIcon>
-                                    {
-                                        !completed
+                                    {!completed
                                             ? <Checkbox
                                                 edge="start"
                                                 tabIndex={-1}
                                                 disableRipple
-                                                onClick={() => checkedCompleted(id, completed)}
+                                                onClick={() => toggleState(id, 'completed', !completed)}
                                             />
                                             : <Checkbox
                                                 edge="start"
                                                 tabIndex={-1}
                                                 disableRipple
                                                 checked={checked}
-                                                onClick={() => checkedCompleted(id, completed)}
+                                                onClick={() => toggleState(id, 'completed', !completed)}
                                                 disabled
                                             />
                                     }
                                 </ListItemIcon>
-                                {input
+                                {isInput
                                     ? <Input
                                         className={classes.inputBorder}
                                         defaultValue={`${text ? text : 'нет значения'}`}
                                         inputProps={{'aria-label': 'description'}}
                                         fullWidth
-                                        onChange={(e) => changeTextField(e)}
+                                        onChange={(e) =>
+                                            setEditTask(e.currentTarget.value)}
                                         onKeyPress={(e) => {
                                             if (e.key === 'Enter') {
                                                 uploadedTask(id, text);
-                                                setInput(false);
+                                                setIsInput(false);
                                             }
                                         }}
                                         onBlur={(e) => {
                                             uploadedTask(id, text);
-                                            setInput(false);
+                                            setIsInput(false);
                                         }}
                                     />
                                     : <InputBase
+                                        key={id}
                                         className={classes.inputBorder}
                                         defaultValue={`${text ? text : 'нет значения'}`}
                                         fullWidth
-                                        onFocus={() => {
-                                            setInput(true);
-                                        }}
+                                        value={text}
+                                        onFocus={
+                                            () => {
+                                                setIsInput(true);
+                                            }
+                                        }
                                     />
                                 }
                                 <div className={classes.timeMessage}>{time}</div>
                                 <img
                                     src={favorite ? SpaceFullStar : SpaceStar}
-                                    onClick={() => maketoFavorite(id, favorite)}
+                                    onClick={() => toggleState(id, 'favorite', !favorite)}
                                 />
                                 <Button onClick={() => setTaskId(id)}>
                                     <AnimateRotate color={"error"}/>

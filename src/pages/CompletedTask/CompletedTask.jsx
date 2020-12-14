@@ -13,7 +13,7 @@ import {
     loadFavoriteTask,
     loadUsersData,
     markToFavorite
-} from "../../store/users/actions";
+} from "../../store/users/actions/actions";
 import {theme} from "../../themes/themes";
 import {AnimateRotate} from "../../styled/MainPage";
 import {EnterField} from "../../components/EnterField/EnterField";
@@ -21,7 +21,7 @@ import SpaceFullStar from "../../img/star.svg";
 import SpaceStar from "../../img/star-outline.svg";
 
 
-export default function ComplitedTask() {
+export default function CompletedTask() {
     let dispatch = useDispatch();
 
     let todos = useSelector(state => state.tasks);
@@ -52,10 +52,9 @@ export default function ComplitedTask() {
         setChecked(newChecked);
     };
 
-    const checkedCompleted = (id, completed) => {
-        const checkedTask = todos.find((item) => item.id === id);
-        checkedTask.completed = !completed;
-        dispatch(completedTask(checkedTask));
+    const toggleState = (id, field, value) => {
+        const selectedTask = todos.find((item) => item.id === id);
+        dispatch(markToFavorite({...selectedTask, [field]: value }));
     }
 
     return (
@@ -75,14 +74,14 @@ export default function ComplitedTask() {
                                                     edge="start"
                                                     tabIndex={-1}
                                                     disableRipple
-                                                    onClick={() => checkedCompleted(id, completed)}
+                                                    onClick={() => toggleState(id, 'completed', !completed)}
                                                     checked
                                                 />
                                                 : <Checkbox
                                                     edge="start"
                                                     tabIndex={-1}
                                                     disableRipple
-                                                    onClick={() => checkedCompleted(id, completed)}
+                                                    onClick={() => toggleState(id, 'completed', !completed)}
                                                 />
                                         }
                                     </ListItemIcon>

@@ -1,53 +1,166 @@
 {
   "allTasks": [
     {
-      "text": "Реализовал редак тирование, ура!=)",
+      "text": "1234",
       "time": "2020-12-09",
       "favorite": true,
       "id": 10,
-      "completed": true
+      "completed": true,
+      "favoreite": false
     },
     {
-      "text": "олтваотмлвоатм1",
+      "text": "32",
       "time": "2020-12-09",
-      "favorite": true,
-      "id": 12,
-      "completed": false
-    },
-    {
-      "text": "Привяу)",
-      "time": "2020-12-10",
       "favorite": false,
-      "id": 13,
+      "id": 12,
       "completed": true
     },
     {
-      "text": "Рефактор",
+      "text": "что-то ест",
       "time": "2020-12-11",
-      "favorite": false,
-      "completed": false,
-      "id": 16
+      "favorite": true,
+      "completed": true,
+      "id": 20
     },
     {
-      "text": "Рефактор1",
-      "time": "2020-12-11",
-      "favorite": false,
-      "completed": false,
-      "id": 17
-    },
-    {
-      "text": "Ре.",
+      "text": "м",
       "time": "2020-12-11",
       "favorite": false,
       "completed": true,
-      "id": 18
+      "id": 21
     },
     {
-      "text": "Тестим вынос функции",
+      "text": "ежк1",
+      "time": "2020-12-11",
+      "favorite": false,
+      "completed": true,
+      "id": 22
+    },
+    {
+      "text": "Проверкак123",
       "time": "2020-12-11",
       "favorite": true,
+      "completed": true,
+      "id": 23
+    },
+    {
+      "text": "Проверка 2оывлоатыва",
+      "time": "2020-12-11",
+      "favorite": true,
+      "completed": true,
+      "id": 24
+    },
+    {
+      "text": "оватмловат",
+      "time": "2020-12-11",
+      "favorite": true,
+      "completed": true,
+      "id": 25
+    },
+    {
+      "text": "вамвамв312",
+      "time": "2020-12-14",
+      "favorite": true,
+      "completed": true,
+      "id": 26
+    },
+    {
+      "text": "213jlkndvdlkcmdl,dlc,lmkmlkm",
+      "time": "2020-12-14",
+      "favorite": true,
+      "completed": true,
+      "id": 27
+    },
+    {
+      "text": "zenden",
+      "time": "2020-12-14",
+      "favorite": false,
+      "completed": true,
+      "id": 28
+    },
+    {
+      "text": "ksdjnvjdf",
+      "time": "2020-12-14",
+      "favorite": false,
+      "completed": true,
+      "id": 29
+    },
+    {
+      "text": "sdcjnsjdckmlk1kdmcddkcjdc123",
+      "time": "2020-12-14",
+      "favorite": true,
+      "completed": true,
+      "id": 30
+    },
+    {
+      "text": "we are the champions",
+      "time": "2020-12-14",
+      "favorite": false,
+      "completed": true,
+      "id": 31
+    },
+    {
+      "text": "ыкsdlkcmsd",
+      "time": "2020-12-14",
+      "favorite": false,
+      "completed": true,
+      "id": 32
+    },
+    {
+      "text": "skdjcn1",
+      "time": "2020-12-14",
+      "favorite": true,
       "completed": false,
-      "id": 19
+      "id": 33
+    },
+    {
+      "text": "Только изобрести что-то недостаточно.",
+      "time": "2020-12-14",
+      "favorite": true,
+      "completed": false,
+      "id": 34
+    },
+    {
+      "text": "бычно они не видят будущее.",
+      "time": "2020-12-14",
+      "favorite": true,
+      "completed": false,
+      "id": 35
+    },
+    {
+      "text": "выпуская больше продуктов»",
+      "time": "2020-12-14",
+      "favorite": false,
+      "completed": false,
+      "id": 36
+    },
+    {
+      "text": "Б",
+      "time": "2020-12-14",
+      "favorite": false,
+      "completed": false,
+      "id": 38
+    },
+    {
+      "text": "Б",
+      "time": "2020-12-14",
+      "favorite": true,
+      "completed": true,
+      "id": 39
+    },
+    {
+      "text": "А",
+      "time": "2020-12-14",
+      "favorite": false,
+      "completed": false,
+      "id": 40
+    },
+    {
+      "text": "Создать пагинацию",
+      "time": "2020-12-14",
+      "favorite": false,
+      "completed": false,
+      "id": 41
     }
   ]
 }

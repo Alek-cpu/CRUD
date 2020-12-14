@@ -12,7 +12,7 @@ import {
     loadUsersData,
     markToFavorite,
     uploadTask
-} from "../../store/users/actions";
+} from "../../store/users/actions/actions";
 import {theme} from "../../themes/themes";
 import {EnterField} from "../../components/EnterField/EnterField";
 import {Checkbox, Input, InputBase, List, ListItem, ListItemIcon} from "@material-ui/core";
@@ -31,7 +31,7 @@ export default function FavoritePage() {
     const [checked, setChecked] = useState([1]);
     const [deletedId, setDeletedId] = useState();
     const [editTask, setEditTask] = useState();
-    const [input, setInput] = useState(false);
+    const [isInput, setIsInput] = useState(false);
 
     useEffect(() => {
         dispatch(loadFavoriteTask());
@@ -54,25 +54,20 @@ export default function FavoritePage() {
         setChecked(newChecked);
     };
 
-    const maketoFavorite = (id, favorite) => {
+    const toggleState = (id, field, value) => {
         const selectedTask = todos.find((item) => item.id === id);
-        selectedTask.favorite = !favorite;
-        dispatch(markToFavorite(selectedTask));
-    }
-
-    const checkedCompleted = (id, completed) => {
-        const checkedTask = todos.find((item) => item.id === id);
-        checkedTask.completed = !completed;
-        dispatch(completedTask(checkedTask));
+        dispatch(markToFavorite({...selectedTask, [field]: value }));
     }
 
     const uploadedTask = (id, text) => {
         const textTask = todos.find((item) => item.id === id);
-        textTask.text = editTask.split(' ').filter(e => e.trim().length).join(' ');
-        if (!textTask.text) {
-            textTask.text = text;
+        console.log(editTask.length);
+        console.log(text);
+        if (editTask.length === 0) {
+            dispatch(uploadTask({...textTask, text: text}))
+        } else {
+            dispatch(uploadTask({...textTask, text: editTask.split(' ').filter(e => e.trim().length).join(' ')}))
         }
-        dispatch(uploadTask(textTask));
     }
 
     const changeTask = (e) => {
@@ -96,65 +91,54 @@ export default function FavoritePage() {
                                                     edge="start"
                                                     tabIndex={-1}
                                                     disableRipple
-                                                    onClick={() => checkedCompleted(id, completed)}
+                                                    onClick={() => toggleState(id, 'completed' , completed)}
                                                     checked
                                                 />
                                                 : <Checkbox
                                                     edge="start"
                                                     tabIndex={-1}
                                                     disableRipple
-                                                    onClick={() => checkedCompleted(id, completed)}
+                                                    onClick={() => toggleState(id, 'completed' , completed)}
                                                 />
                                         }
                                     </ListItemIcon>
-                                    {input
+                                    {isInput
                                         ? <Input
-                                            key={id}
-                                            id={id}
                                             className={classes.inputBorder}
                                             defaultValue={`${text ? text : 'нет значения'}`}
                                             inputProps={{'aria-label': 'description'}}
                                             fullWidth
-                                            onChange={
-                                                (e) => changeTask
-                                            }
-                                            onKeyPress={
-                                                (e) => {
-                                                    if (e.key === 'Enter') {
-                                                        uploadedTask(id, text);
-                                                        setInput(false);
-                                                    }
-                                                }
-                                            }
-                                            onBlur={
-                                                (e) => {
+                                            onChange={(e) =>
+                                                setEditTask(e.currentTarget.value)}
+                                            onKeyPress={(e) => {
+                                                if (e.key === 'Enter') {
                                                     uploadedTask(id, text);
-                                                    setInput(false);
+                                                    setIsInput(false);
                                                 }
-                                            }
+                                            }}
+                                            onBlur={(e) => {
+                                                uploadedTask(id, text);
+                                                setIsInput(false);
+                                            }}
                                         />
                                         : <InputBase
                                             key={id}
                                             className={classes.inputBorder}
                                             defaultValue={`${text ? text : 'нет значения'}`}
                                             fullWidth
+                                            value={text}
                                             onFocus={
                                                 () => {
-                                                    setInput(true);
+                                                    setIsInput(true);
                                                 }
                                             }
                                         />
                                     }
                                     <div className={classes.timeMessage}>{time}</div>
-                                    <div
-                                        key={id}
-
-                                    >
-                                        <img
-                                            src={favorite ? SpaceFullStar : SpaceStar}
-                                            onClick={() => maketoFavorite(id, favorite)}
-                                        />
-                                    </div>
+                                    <img
+                                        src={favorite ? SpaceFullStar : SpaceStar}
+                                        onClick={() => toggleState(id, 'favorite' , completed)}
+                                    />
                                     <Button onClick={() => setDeletedId(id)}>
                                         <AnimateRotate color={"error"}/>
                                     </Button>

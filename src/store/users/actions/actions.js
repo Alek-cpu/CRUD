@@ -5,11 +5,11 @@ import {
     DELETE_TODO,
     GET_TODO,
     ISFAVORITE_TODO, TOGGLE_TASK
-} from './types';
+} from '../types';
 import {
     getTasks, postTask, deletedTaskItem,
     patchTask, getTasksFavourite, getTasksCompleted
-} from "../../utils/api";
+} from "../../../utils/api";
 
 export const loadUsersData = () => (dispatch) => getTasks()
     .then((result) => dispatch({
@@ -41,10 +41,10 @@ export const deletedTask = (id) => (dispatch) => deletedTaskItem(id)
         id
     }));
 
-export const markToFavorite = (element) => (dispatch) => patchTask(element.id, element)
-    .then(() => dispatch({
+export const markToFavorite = (params) => (dispatch) => patchTask(params.id, params)
+    .then((el) => dispatch({
         type: ISFAVORITE_TODO,
-        params: element,
+        params,
     }));
 
 export const completedTask = (element) => (dispatch) => patchTask(element.id, element)
