@@ -7,6 +7,7 @@ import {NavigationButtonBackground} from "../../styled/NavigationButtonBackgroun
 import TasksIcon from "../../img/menu-book.svg";
 import FavoriteIcon from "../../img/star-white.svg";
 import CompletedIcon from "../../img/thumb-up.svg";
+import SettingIcon from "../../img/settings.svg";
 
 export const NavigationButton = () => {
     const tabsMenu = [
@@ -32,7 +33,7 @@ export const NavigationButton = () => {
         {
             color: "primary",
             textField: "Setting",
-            icon: CompletedIcon,
+            icon: SettingIcon,
             path: '/setting'
         }
     ]
