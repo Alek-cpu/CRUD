@@ -161,6 +161,21 @@
       "favorite": false,
       "completed": false,
       "id": 41
+    },
+    {
+      "text": "что интересного?",
+      "time": "2020-12-15",
+      "favorite": true,
+      "completed": false,
+      "id": 42
+    }
+  ],
+  "categorySet": [
+    {
+      "id": null,
+      "name": "Sport",
+      "icon": "",
+      "color": ""
     }
   ]
 }

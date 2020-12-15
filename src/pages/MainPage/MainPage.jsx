@@ -55,8 +55,6 @@ function MainPage() {
 
     const uploadedTask = (id, text) => {
         const textTask = todos.find((item) => item.id === id);
-        console.log(editTask.length);
-        console.log(text);
         if (editTask.length === 0) {
             dispatch(uploadTask({...textTask, text: text}))
         } else {
